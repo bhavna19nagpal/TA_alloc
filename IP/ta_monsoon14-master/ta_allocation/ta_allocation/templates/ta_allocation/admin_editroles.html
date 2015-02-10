@@ -1,0 +1,105 @@
+{% load bootstrap %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Admin | Edit Role</title>
+    	<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+	    <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+  		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+		
+	</head>
+	<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="../../static/student/js/bootstrap.js"></script>
+	
+	<!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: absolute;
+    top: 10%;'>
+
+      <div class="modal-dialog" style="width: 600px; ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">Edit {{ entry.loginid }}</h4>
+          </div>
+          <div class = 'modal-body ativa-scroll' style = 'max-height:400px;'>
+					
+					<p>{{str}}</p>
+						<form id="f_gen" action="/admin/edituser/{{ entry.aid }}" method="post" >
+
+  			  
+							{% csrf_token %}
+
+            <div class = 'row'>
+              <div class = 'col-md-2'></div>
+              <div class = 'col-md-2' style = 'font-size:20px;'>
+                <b>Login ID</b>
+              </div>
+              <div class = 'col-md-3'>
+                {{ form.loginid }}
+              </div>
+            </div><br><br>
+            <div class = 'row'>
+              <div class = 'col-md-2'></div>
+              <div class = 'col-md-2' style = 'font-size:20px;'>
+                <b>Role</b>
+              </div>
+              <div class = 'col-md-3'>
+                {{ form.role }}
+              </div>
+            </div>
+            <div class = 'row'>
+              <div class = 'col-md-2'></div>
+              <div class = 'col-md-2' style = 'font-size:20px;'>
+                <b>Program</b>
+              </div>
+              <div class = 'col-md-3'>
+                {{ form.program }}
+              </div>
+            </div>
+
+
+
+							<div class="text-center">
+								<br><input id="f_gen_b" type="submit" class="btn btn-large btn-success" value="Submit">
+							</div>
+						</form>
+          </div>
+
+      </div>
+    </div>
+    </div>
+	
+
+<script type="text/javascript">
+  $(document).ready(ajustamodal);
+  $(window).resize(ajustamodal);
+  function ajustamodal() {
+    var altura = $(window).height() - 155; //value corresponding to the modal heading + footer
+    $(".ativa-scroll").css({"height":altura,"overflow-y":"auto"});
+  }
+</script>
+	</body>
+</html>

@@ -1,0 +1,252 @@
+{% load bootstrap %}
+
+<html>
+		
+			<head>
+    		<title>Admin | Add User</title>
+    		<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+			  <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+    		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+ 			</head>
+
+			<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+          <!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div><br><br>
+ <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: absolute;
+    top: 10%;'>
+
+      <div class="modal-dialog" style="width: 800px;">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">All Courses</h4>
+          </div>
+          <div class="modal-body ativa-scroll" id="myModalLabel" style="max-height:500px;font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:20px; text-align:center"> 
+		   			<p>{{str}}</p>
+						<form id="f1" action="" method="post" >
+
+                  <div class = 'row' style = 'font-size:18'>
+                    <b>
+                      <div class = 'col-md-4'>Course Type</div>
+                      <div class = 'col-md-2'>Students per Tutor</div>
+                      <div class = 'col-md-2'>Students per Sr TA</div>
+                      <div class = 'col-md-2'>Students per Jr TA</div>
+                      <div class = 'col-md-2'>Students per BT TA</div>
+                    </b>
+                  </div><br>
+
+					{% for item in policies %}
+
+
+                   	<div class = 'row' style = 'font-size:17'>
+                   	  <div class = 'col-md-4'>{% if item.course_type == 1 %}Core {% elif item.course_type == 2 %}Core Elective{% elif item.course_type == 3 %}Required Elective{% elif item.course_type == 4 %}Free Elective{% endif %}</div>
+                      <div class = 'col-md-2'>{{ item.ratio_tutors_min }}</div>
+                      <div class = 'col-md-2'>{{ item.ratio_s_ta_min }}</div>
+                      <div class = 'col-md-2'>{{ item.ratio_j_ta_min }}</div>
+                      <div class = 'col-md-2'>{{ item.ratio_btech_ta_min }}</div>
+                      
+                  	</div><br>
+					
+					{% endfor %}
+								
+							
+							{% csrf_token %}
+						</form>
+						
+
+						<div class="text-center"><br>
+						</div> 
+						
+
+      </div>
+    </div>
+    </div>
+</div>
+
+	 <!-- contact modal -->
+
+
+<div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Pulkit.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Pulkit Arora - pulkit12082@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Prakhar.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Prakhar Gupta - prakhar11074@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Kushagra.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Kushagra Singh - kushagra14056@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Manish Rana - manish11063@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Sourabh Singh - sourabh11112@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <!-- contact modal ends -->
+
+  <!-- about modal -->
+
+<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style='width:500px;'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center' >About</h4>
+      </div>
+      <div class="modal-body">
+        <span style = 'font-size:20px;'>
+          This is a freeware service designed by students of <a href="http://www.iiitd.ac.in/" rel="nofollow">IIIT - Delhi</a> as a BYLD project.
+        </span>
+
+              </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- about modal ends -->
+
+
+    <script type="text/javascript" src='../../static/student/js/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/bootstrap.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/jquery.js'></script>
+    <script>
+  document.getElementById("delete").disabled = true;
+  
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script>
+$('input[type="checkbox"]').on('change', function() {
+    checked_vals()
+}).change();
+
+function checked_vals(){
+    var checked_ids=[];
+    $('input[type="checkbox"]:checked').map(function() {
+        checked_ids.push(this.aid);
+    });
+    // console.log(checked_ids );
+    // console.log(checked_ids.length);
+    if(checked_ids.length==0){
+      
+      document.getElementById("delete").disabled = true;
+    }
+    
+    if(checked_ids.length>=1){
+      
+      document.getElementById("delete").disabled = false;
+      
+      
+      $("#delete").attr("href","/admin/delete_courses/"+checked_ids);
+      
+      // $("#delete1").attr("data-confirm","are you sure you want to delete "+checked_ids.length+" items?");
+    }
+
+}
+</script>
+<script >
+function executeOnSubmit()
+{
+        var checked_ids=[];
+        $('input[type="checkbox"]:checked').map(function() {
+            checked_ids.push(this.id);
+        });
+        console.log(checked_ids);
+        var res = confirm("Are you sure you want to delete "+checked_ids.length+" courses?");
+        // link = "/delete_departments?ids="+checked_ids;
+        // alert(link);
+        console.log(checked_ids);
+        if(res==true)
+                location.href="/admin/delete_courses/"+checked_ids;
+      
+        else
+                return false;
+}
+</script>
+<script type="text/javascript">
+  $(document).ready(ajustamodal);
+  $(window).resize(ajustamodal);
+  function ajustamodal() {
+    var altura = $(window).height() - 155; //value corresponding to the modal heading + footer
+    $(".ativa-scroll").css({"height":altura,"overflow-y":"auto"});
+  }
+</script>
+
+
+</body>
+</html>

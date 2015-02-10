@@ -1,0 +1,284 @@
+{% load bootstrap %}
+
+<html>
+		
+			<head>
+    		<title>Student | Grades</title>
+    		<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+			  <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+    		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+ 			</head>
+
+			<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+          <!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div><br><br>
+ 
+
+
+
+
+ <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: relative;
+    top: 0%;'>
+
+      <div class="modal-dialog" style="width: 800px;">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">Grades</h4>
+          </div>
+          <div class="modal-body ativa-scroll" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:20px; text-align:center"> {{ str }} 
+		   			
+			<p>{{str}}</p>
+							<h2 class="text-center"><strong>User Profile</strong></h2><br><br>
+							<!--<div style="width:200px; margin:0 auto; margin-top:3%;">-->
+							<div style="width:800px; margin:0 auto;" class="text-left">	
+							<div class="text-left" id ="errors">
+							</div>
+							<form id="grades" action="" method="post">
+							{% csrf_token %}
+							<strong>1st Year Courses </strong><br>
+							<table>
+							{% for element in courses1 %}
+							<tr>
+								<td>{{element.cname}}</td>
+								<td><input class="grade" type="text" name="id_{{element.aid}}"
+								{% for key, value in gradelist.items %}
+									{% ifequal element.aid|stringformat:"s" key|stringformat:"s" %}
+										value="{{value}}"
+									{% endifequal %}
+								{% endfor %}
+								></td>
+								<td style="width:300px; padding-left:20px;"></td>
+							</tr>
+							{% endfor %}
+							</table>
+							<strong>2nd Year Courses </strong><br>
+							<table>
+							{% for element in courses2 %}
+							<tr>
+								<td>{{element.cname}}</td>
+								<td><input class="grade" type="text" name="id_{{element.aid}}"
+								{% for key, value in gradelist.items %}
+									{% ifequal element.aid|stringformat:"s" key|stringformat:"s" %}
+										value="{{value}}"
+									{% endifequal %}
+								{% endfor %}
+								></td>
+								<td style="width:300px; padding-left:20px;"></td>
+							</tr>
+							{% endfor %}
+							</table>
+							<strong>UG/PG Courses </strong><br>
+							<table>
+							{% for element in courses3 %}
+							<tr>
+								<td>{{element.cname}}</td>
+								<td><input class="grade" type="text" name="id_{{element.aid}}"
+								{% for key, value in gradelist.items %}
+									{% ifequal element.aid|stringformat:"s" key|stringformat:"s" %}
+										value="{{value}}"
+									{% endifequal %}
+								{% endfor %}
+								></td>
+								<td style="width:300px; padding-left:20px;"></td>
+							</tr>
+							{% endfor %}
+							</table>
+							<strong>PG Courses </strong><br>
+							<table>
+							{% for element in courses4 %}
+							<tr>
+								<td>{{element.cname}}</td>
+								<td><input class="grade" type="text" name="id_{{element.aid}}"
+								{% for key, value in gradelist.items %}
+									{% ifequal element.aid|stringformat:"s" key|stringformat:"s" %}
+										value="{{value}}"
+									{% endifequal %}
+								{% endfor %}
+								></td>
+								<td style="width:300px; padding-left:20px;"></td>
+							</tr>
+							{% endfor %}
+							</table>
+							<!--br><input id = "sb" type="submit" class="btn btn-large btn-success" value="Submit"-->
+							</form>
+							<div class="text-center">
+							<button id="sb" class="btn btn-large btn-success"> Submit </button>
+							</div>
+							<!--table>
+							{% for key, value in gradelist.items %}
+							<tr><p><td> asd {{key}} -> {{value}}</td></tr>
+							{% endfor %}
+							</table-->
+							</div>
+
+      </div>
+    </div>
+    </div>
+</div>
+
+	 <!-- contact modal -->
+
+
+<div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Pulkit.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Pulkit Arora - pulkit12082@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Prakhar.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Prakhar Gupta - prakhar11074@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Kushagra.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Kushagra Singh - kushagra14056@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Manish Rana - manish11063@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Sourabh Singh - sourabh11112@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <!-- contact modal ends -->
+
+  <!-- about modal -->
+
+<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style='width:500px;'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center' >About</h4>
+      </div>
+      <div class="modal-body">
+        <span style = 'font-size:20px;'>
+          This is a freeware service designed by students of <a href="http://www.iiitd.ac.in/" rel="nofollow">IIIT - Delhi</a> as a BYLD project.
+        </span>
+
+              </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- about modal ends -->
+
+
+    <script type="text/javascript" src='../../static/student/js/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/bootstrap.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/jquery.js'></script>
+
+
+
+</body>
+</html>
+	<script>
+	$('#sb').click( function() {
+		er=0;
+		$(".grade").each(function(){
+			if($.isNumeric($(this).val()))
+			{
+				if(parseInt($(this).val(), 10) < 0)
+				{
+					er=1;
+					$(this).parent().next().html("<font color='red'>Must be greater than 0</font>");
+				}
+				else if(parseInt($(this).val(), 10) > 10)
+				{
+					er=1;
+					$(this).parent().next().html("<font color='red'>Must be smaller than 10</font>");
+				}
+			}
+			else if($(this).val().length == 0) 
+			{
+			}
+			else
+			{
+				er=1;
+				$(this).parent().next().html("<font color='red'>Must be a number</font>");
+			}	
+		});
+		if(er==0)
+		{
+			$('#grades').submit();
+		}
+		else if(er==1)
+		{
+			$("#errors").append("<font color='red'>Fix the following errors</font>");
+			$('html,body').animate({ scrollTop: 0 }, 'slow', function () {});
+		}
+	});
+	</script>
+	</body>
+</html>

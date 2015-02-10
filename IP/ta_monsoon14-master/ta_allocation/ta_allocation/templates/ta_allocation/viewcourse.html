@@ -1,0 +1,175 @@
+{% load bootstrap %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin | View Course</title>
+      <link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+      <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+      <link href='../../static/student/css/siimple.css' rel='stylesheet'>
+    
+  </head>
+  <body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../../static/student/js/bootstrap.js"></script>
+  
+  <!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: absolute;
+    top: 10%;'>
+
+      <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">View Course</h4>
+          </div>
+          <div class = 'modal-body ativa-scroll' style = 'f font-align:center;'>
+          
+            <entry id="f_gen" action="/admin/addcourses/" method="post" style = 'font-size:20px;'>
+<div class = 'row'>
+      <div class = 'col-md-4'>Course code</div>
+      <div class = 'col-md-2'>{{entry.cid }}</div>
+      <div class = 'col-md-4'>Course Name</div>
+      <div class = 'col-md-2'>{{entry.cname }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Registration number</div>
+      <div class = 'col-md-2'>{{entry.reg_no }}</div>
+      <div class = 'col-md-4'>Course description</div>
+      <div class = 'col-md-2'>{{entry.desc }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Semester</div>
+      <div class = 'col-md-2'>{{entry.sem }}</div>
+      <div class = 'col-md-4'>Year</div>
+      <div class = 'col-md-2'>{{entry.year }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Professor 1 Email ID</div>
+      <div class = 'col-md-2'>{{ entry.prof_id1.loginid }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Professor 2 Email ID</div>
+      <div class = 'col-md-2'>{{ entry.prof_id2.loginid }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Minimum Tutors</div>
+      <div class = 'col-md-2'>{{entry.tutors_min}}</div>
+      <div class = 'col-md-4'>Maximum Tutors</div>
+      <div class = 'col-md-2'>{{entry.tutors_max}}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Minimum Senior TA's</div>
+      <div class = 'col-md-2'>{{entry.s_ta_min }}</div>
+      <div class = 'col-md-4'>Maximum Senior TA's</div>
+      <div class = 'col-md-2'>{{entry.s_ta_max }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Minimum Junior TA's</div>
+      <div class = 'col-md-2'>{{entry.j_ta_min }}</div>
+      <div class = 'col-md-4'>Maximum Junior TA's</div>
+      <div class = 'col-md-2'>{{entry.j_ta_max }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-4'>Minimum BTech TA's</div>
+      <div class = 'col-md-2'>{{entry.btech_ta_min }}</div>
+      <div class = 'col-md-4'>Maximum BTech TA's</div>
+      <div class = 'col-md-2'>{{entry.btech_ta_max }}</div>
+</div>
+<div class = 'row'><br>
+      <div class = 'col-md-8'>Maximum number of TA's that can be selected</div>
+      <div class = 'col-md-2'>{{entry.select_max }}</div>
+</div>
+{% for i in prereqs %}
+      
+      <div class = 'row'>
+        <b>PreRequisite {{ forloop.counter }}</b>
+      </div>
+      <div class = 'row'>
+        <div class = 'col-md-4'>
+          Course Code: {{ i.prereq.pid }}
+        </div>
+        <div class = 'col-md-8'>
+          Course Name: {{ i.prereq.cname }}
+        </div>
+      </div>
+    {% endfor %}
+    {% for i in skills %}
+      
+      <div class = 'row'>
+        <b>Skill {{ forloop.counter }}</b>
+      </div>
+      <div class = 'row'>
+        <div class = 'col-md-4'>
+          Skill Kind: {{ i.skill.kind.kname }}
+        </div>
+        <div class = 'col-md-8'>
+          Skill Name: {{ i.skill.sname }}
+        </div>
+      </div>
+    {% endfor %}
+    <br>
+    <a href = '/professor/editcourse/{{entry.aid}}'><div style = 'text-align:center'><button class = 'btn btn-success btn-lg'>Edit Course</button></div></a>
+
+<!--
+
+<div class = 'row'><br>
+
+  <div class = 'col-md-6'>
+    <div style = 'text-align:center;'>
+    <h3><b>Pre Requisites</b></h3>
+    </div>
+  </div>
+  <div class = 'col-md-6'>
+    <div style = 'text-align:center;'>
+    <h3><b>Skills</b></h3>
+    </div>
+  </div>
+
+</div>
+          
+-->
+
+
+              {% csrf_token %}
+
+
+            </entry>
+          </div>
+
+      </div>
+    </div>
+    </div>
+  
+
+<script type="text/javascript">
+  $(document).ready(ajustamodal);
+  $(window).resize(ajustamodal);
+  function ajustamodal() {
+    var altura = $(window).height() - 155; //value corresponding to the modal heading + footer
+    $(".ativa-scroll").css({"height":altura,"overflow-y":"auto"});
+  }
+</script>
+  </body>
+</html>

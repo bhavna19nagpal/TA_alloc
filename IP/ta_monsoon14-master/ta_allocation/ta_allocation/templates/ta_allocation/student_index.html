@@ -1,0 +1,282 @@
+<html>
+		
+			<head>
+    		<title>Home</title>
+    		<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+			  <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+    		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+ 			</head>
+
+      <body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+      		<!-- Static navbar -->
+      		<div class='navbar navbar-default' role='navigation'>
+        		<div class='container-fluid'>
+        			<div class='navbar-header'>
+
+            			<a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+          			</div>
+          		<div class='navbar-collapse collapse'>
+
+    	        <ul class='nav navbar-nav navbar-right'>
+        	      <li class='active'><a href='./'>{{user}}</a></li>
+            	  <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+                 <li class='dropdown'>
+                  <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Options<span class='caret'></span></a>
+                  <ul class='dropdown-menu' role='menu'>
+                      <li><a href='/ta/apply'>Apply</a></li>
+                      <li><a href='/ta/mycourses'>My Applications</a></li>
+                      <li class='divider'></li>
+                      <li><a href='/ta/profile'>Edit Profile</a></li>
+                      <li><a href='/logout'>Sign Out</a></li>
+                  </ul>
+                </li>          	  
+            	</ul>
+          		</div><!--/.nav-collapse -->
+        	</div><!--/.container-fluid -->
+      </div>
+
+
+{% if check == 1 %}
+
+
+      <div class = 'row'>
+        <div class = 'col-md-3'></div>
+        <div class = 'col-md-6'><br><br><br><br>
+          <div class="panel panel-info" style = 'width:800px;'>
+            <div class="panel-heading">
+              <h3 class="panel-title" style = 'text-align:center;font-size:30px'>Welcome {{ name }}</h3>
+            </div>
+            <div class="panel-body" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center'>
+            {% if program == 0 %}
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center' >Programme :</div>
+              <div class = 'col-md-4'>BTech</div>
+              <div class = 'col-md-4'></div>
+            </div>
+            {% elif program == 4 %}
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center' >Name :</div>
+              <div class = 'col-md-4'>MTech 1st Year</div>
+              <div class = 'col-md-4'></div>
+            </div>
+            {% elif program == 5 %}
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center' >Name :</div>
+              <div class = 'col-md-4'>MTech 2nd Year</div>
+              <div class = 'col-md-4'></div>
+            </div>
+            {% elif program == 7 %}
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center' >Name :</div>
+              <div class = 'col-md-4'>PhD</div>
+              <div class = 'col-md-4'></div>
+            </div>
+            {% endif %}
+            <br>
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center' >Email :</div>
+              <div class = 'col-md-4'>{{ email }} </div>
+              <div class = 'col-md-4'></div><br><br>
+            </div>
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center' >Skills :</div>
+              {% if skill_set == ""  %}
+              <div class = 'col-md-4'>You haven't added any skills</div>
+              <div class = 'col-md-3'>
+                <a href="/ta/profile/skills" class="btn btn-large btn-success btn-block" style = 'font-size:18'>Add skills now</a>
+              </div>
+              {% else  %}
+              <div class = 'col-md-4'>Update your skills here -></div>
+              <div class = 'col-md-4'></div>   
+              <div class = 'col-md-3'>
+                <a href="/ta/profile/skills" class="btn btn-large btn-success btn-block" style = 'font-size:18'>Update skills now</a>
+              </div>          
+              {% endif %}
+            </div><br>
+            <div class = 'row' >
+              <div class = 'col-md-4' style = 'text-align:center'>Courses :
+              </div>
+              {% if gradelist == ""  %}
+              <div class = 'col-md-4'>You haven't added any courses</div>
+              <div class = 'col-md-3'>
+                <a href="/ta/profile/courses" class="btn btn-large btn-success btn-block" style = 'font-size:18'>Add grades now</a>
+              </div>
+              {% else  %}
+              <div class = 'col-md-4'>Update your grades for PreRequisites here -></div>
+              <div class = 'col-md-4'></div>
+              <div class = 'col-md-3'>
+                <a href="/ta/profile/courses" class="btn btn-large btn-success btn-block" style = 'font-size:18'>Update grades now</a>
+              </div>              
+              {% endif %}
+            </div><br>
+                  <div class = 'row'>
+        <div class = 'col-md-4'> Status :</div>
+        <div class = 'col-md-4'>
+          {% if status == 0 %}
+              Your profile is enabled for TA-ship<br><br>
+          {% elif status == 1 %}
+              Your profile is disabled for TA-ship<br><br>
+          {% endif %}       
+        </div>
+        <div class = 'col-md-3'>
+          {% if status == 0 %}
+            <a href = '/ta/profile/disable' class = 'btn btn-danger btn-lg btn-block'>Disable</a>
+          {% elif status == 1 %}
+            <a href = '/ta/profile/enable' class = 'btn btn-success btn-lg btn-block'>Enable</a>
+          {% endif %}       
+        </div>
+      </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+{% elif check == 0 %}
+
+
+
+     <div class = 'row'>
+        <div class = 'col-md-3'></div>
+        <div class = 'col-md-6'><br><br><br><br>
+          <div class="panel panel-info" style = 'width:800px;'>
+            <div class="panel-heading">
+              <h3 class="panel-title" style = 'text-align:center;font-size:30px'>Welcome {{ user }}</h3>
+            </div>
+            <div class="panel-body" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center'>
+          <div class = 'row'>
+            <div class = 'col-md-1'></div>
+            <div class = 'col-md-10'>
+              <div style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center' >
+                You have logged in for the first time <br><br>Please update your details
+              </div>
+            </div>
+          </div>
+          <div class = 'row'>
+          <div class = 'col-md-4'></div>
+          <div class = 'col-md-4'>
+            <form method = 'link' action = '/ta/profile'><br><br>
+              <button class = 'btn btn-success btn-lg btn-block'>
+                Update
+              </button>
+            </form>
+            </div>
+          </div>
+           </div>
+          </div>
+        </div>
+      </div>
+
+{% endif %}
+	 <!-- contact modal -->
+
+
+<div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Pulkit.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Pulkit Arora - pulkit12082@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Prakhar.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Prakhar Gupta - prakhar11074@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Kushagra.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Kushagra Singh - kushagra14056@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Manish Rana - manish11063@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Sourabh Singh - sourabh11112@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <!-- contact modal ends -->
+
+  <!-- about modal -->
+
+<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style='width:500px;'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center' >About</h4>
+      </div>
+      <div class="modal-body">
+        <span style = 'font-size:20px;'>
+          This is a freeware service designed by students of <a href="http://www.iiitd.ac.in/" rel="nofollow">IIIT - Delhi</a> as a BYLD project.
+        </span>
+
+              </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- about modal ends -->
+
+
+    <script type="text/javascript" src='../../static/student/js/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/bootstrap.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/jquery.js'></script>
+
+
+
+</body>
+</html>

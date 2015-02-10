@@ -1,0 +1,104 @@
+{% load bootstrap %}
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <style>
+  #progress_bar {
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #000;
+    font-size: 14px;
+    clear: both;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+  }
+  #progress_bar.loading {
+    opacity: 1.0;
+  }
+  #progress_bar .percent {
+    background-color: #99ccff;
+    height: auto;
+    width: 0;
+  }
+</style>
+		<meta charset="utf-8">
+		<title>DOAA | Results</title>
+    	<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+	    <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+  		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+		
+	</head>
+	<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="../../static/student/js/bootstrap.js"></script>
+	
+	<!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: absolute;
+    top: 10%;'>
+
+      <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">Results</h4>
+          </div>
+          <div class = 'modal-body ativa-scroll'>
+					
+					<p>{{str}}</p>
+							
+          
+          <div style = 'text-align:center'>
+              <form method='link' action = '/doa/run_algoresult'>
+                <button class='btn btn-success btn-lg' >See Results</button>
+             </form>
+                
+          </div>
+
+          <div style = 'text-align:center'>
+            <form>
+              {% csrf_token %}
+              <input type="button" class = 'btn btn-success btn-lg' value="Download Result files" onClick="window.location.href='/doa/download_algoresult'">
+            </form>
+          </div>
+							
+          
+          </div>
+
+      </div>
+    </div>
+    </div>
+	
+
+
+<script type="text/javascript" src='../../static/student/js/jquery-1.10.2.min.js'></script>
+<script type="text/javascript" src='../../static/student/js/jquery.js'></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+{% load bootstrap %}
+
+<html>
+		
+			<head>
+    		<title>Student | Apply</title>
+    		<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+			  <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+    		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+ 			</head>
+
+			<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+          <!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div><br><br>
+ 
+
+
+
+
+ <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: relative;
+    top: 0%;'>
+
+      <div class="modal-dialog" style="width: 1000px;">
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">Apply for Courses</h4>
+          </div>
+          <div class="modal-body ativa-scroll" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:20px; text-align:center"> {{ str }} 
+		   			
+							<!--<div style="width:200px; margin:0 auto; margin-top:3%;">-->
+							<div style="width:800px; margin:0 auto;" class="text-left">	
+							<form id="grades" action="" method="post">
+							{% csrf_token %}
+
+            <table id="everything">
+              <div class = 'row'>
+                <div class = 'col-md-1'></div>
+                <div class = 'col-md-4'><strong>Course ID</strong></div>
+                <div class = 'col-md-4'><strong>Course Name</strong></div>
+              </div><br>
+            {% for element in courses1 %}
+            <br>
+              <div class = 'row'>
+                <div class = 'col-md-1'></div>
+                <div class = 'col-md-4'>{{ element.cid }}</div> 
+                <div class = 'col-md-4'>{{ element.cname }}</div> 
+                <div class = 'col-md-2'>
+
+
+                              <form action="/ta/apply/details" method="post">
+                              <input id="b_{{element.aid}}" type="submit" class="btn btn-primary" value="Details">
+                              {% for ele in applications %}
+                                {% ifequal ele.cid.aid|stringformat:"s" element.aid|stringformat:"s" %}
+                                  <script>
+                                      $("#b_{{element.aid}}").val("Edit Application");
+                                  </script>
+                                {% endifequal %}
+                              {% endfor %}
+                              <input type="hidden" value="{{element.aid}}" name="aid" />
+                              </form>
+
+
+                </div>
+              </div>
+            {% endfor %}
+            </table>
+
+              <div style = 'text-align:center;'>
+                <div class = 'row'>
+                  <div class = 'col-md-4'></div>
+                  <div class = 'col-md-4'>
+							<br><input type="submit" class="btn btn-large btn-block btn-success" value="Submit">
+            </div>
+            </div>
+            </div>
+							</form>
+
+      </div>
+    </div>
+    </div>
+</div>
+</div>
+	 <!-- contact modal -->
+
+
+<div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Pulkit.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Pulkit Arora - pulkit12082@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Prakhar.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Prakhar Gupta - prakhar11074@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '../../static/student/img/Kushagra.jpg' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Kushagra Singh - kushagra14056@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Manish Rana - manish11063@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+      <div class = 'row'>
+        <div class = 'col-md-1'></div>
+        <div class = 'col-md-3'>
+          <img src = '' style='border-radius:50%' height='120' width = '120'> 
+        </div>
+        <div class = 'col-md-6'>
+          <div style='text-align:center'><br><br>
+          <span style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px;'>Sourabh Singh - sourabh11112@iiitd.ac.in</span>
+          </div>
+        </div>
+      </div><br>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <!-- contact modal ends -->
+
+  <!-- about modal -->
+
+<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style='width:500px;'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:20px; text-align:center' >About</h4>
+      </div>
+      <div class="modal-body">
+        <span style = 'font-size:20px;'>
+          This is a freeware service designed by students of <a href="http://www.iiitd.ac.in/" rel="nofollow">IIIT - Delhi</a> as a BYLD project.
+        </span>
+
+              </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- about modal ends -->
+
+
+    <script type="text/javascript" src='../../static/student/js/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/bootstrap.min.js'></script>
+    <script type="text/javascript" src='../../static/student/js/jquery.js'></script>
+
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+  $(document).ready(ajustamodal);
+  $(window).resize(ajustamodal);
+  function ajustamodal() {
+    var altura = $(window).height() - 155; //value corresponding to the modal heading + footer
+    $(".ativa-scroll").css({"height":altura,"overflow-y":"auto"});
+  }
+</script>
+<script>
+    $("#year").change(function(){
+      var value=$("#year").val();
+      $("#everything").empty();
+      if (value==1)
+      { 
+        var str='<tr> <td><strong>Course ID</strong></td> <td><strong>Course Name</strong></td> <td></td> </tr> {% for element in courses1 %} <tr> <td>{{ element.cid }}</td> <td>{{ element.cname }}</td> <td><form action="/ta/apply/details" method="post"> <input id="b_{{element.aid}}" type="submit" class="btn btn-primary" value="Details"> <input type="hidden" value="{{element.aid}}" name="aid" /> </form></td> <td> </tr> <br><br> {% endfor %}'
+        $("#everything").append(str);
+        {% for element in courses1 %}
+          {% for ele in applications %}
+            {% if ele.cid.aid|stringformat:"s" == element.aid|stringformat:"s" %}
+              $("#b_{{element.aid}}").val("Edit Application");
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        
+      }
+      if (value==2)
+      { 
+        var str='<tr> <td><strong>Course ID</strong></td> <td><strong>Course Name</strong></td> <td></td> </tr> {% for element in courses2 %} <tr> <td>{{ element.cid }}</td> <td>{{ element.cname }}</td> <td><form action="/ta/apply/details" method="post"> <input id="b_{{element.aid}}" type="submit" class="btn btn-primary" value="Details"> <input type="hidden" value="{{element.aid}}" name="aid" /> </form></td> <td> </tr> <br><br> {% endfor %}'
+        $("#everything").append(str);
+        {% for element in courses2 %}
+          {% for ele in applications %}
+            {% if ele.cid.aid|stringformat:"s" == element.aid|stringformat:"s" %}
+              $("#b_{{element.aid}}").val("Edit Application");
+            {% endif %}
+          {% endfor %}
+        {% endfor %}        
+      }
+      if (value==3)
+      { 
+        var str='<tr> <td><strong>Course ID</strong></td> <td><strong>Course Name</strong></td> <td></td> </tr> {% for element in courses3 %} <tr> <td>{{ element.cid }}</td> <td>{{ element.cname }}</td> <td><form action="/ta/apply/details" method="post"> <input id="b_{{element.aid}}" type="submit" class="btn btn-primary" value="Details"> <input type="hidden" value="{{element.aid}}" name="aid" /> </form></td> <td> </tr> <br><br> {% endfor %}'
+        $("#everything").append(str); 
+        {% for element in courses3 %}
+          {% for ele in applications %}
+            {% if ele.cid.aid|stringformat:"s" == element.aid|stringformat:"s" %}
+              $("#b_{{element.aid}}").val("Edit Application");
+            {% endif %}
+          {% endfor %}
+        {% endfor %}        
+      }
+      if (value==4)
+      { 
+        var str='<tr> <td><strong>Course ID</strong></td> <td><strong>Course Name</strong></td> <td></td> </tr> {% for element in courses4 %} <tr> <td>{{ element.cid }}</td> <td>{{ element.cname }}</td> <td><form action="/ta/apply/details" method="post"> <input id="b_{{element.aid}}" type="submit" class="btn btn-primary" value="Details"> <input type="hidden" value="{{element.aid}}" name="aid" /> </form></td> <td> </tr> <br><br> {% endfor %}'
+        $("#everything").append(str); 
+        {% for element in courses4 %}
+          {% for ele in applications %}
+            {% if ele.cid.aid|stringformat:"s" == element.aid|stringformat:"s" %}
+              $("#b_{{element.aid}}").val("Edit Application");
+            {% endif %}
+          {% endfor %}
+        {% endfor %}        
+      }
+    });
+</script>

@@ -1,0 +1,352 @@
+<!--Course ID : {{course.cid}}
+Professor : {{course.uname}}
+Course Name : {{course.cname}}
+<br>
+Skill Set Required:
+Java : {{course.java}}
+C : {{course.c}}
+CSharp : {{course.csharp}}
+Python : {{course.python}}
+R : {{course.r}}
+Php : {{course.php}}
+Ruby : {{course.ruby}}
+Django : {{course.django}}
+
+<a href="/ta/apply">Go back and apply</a>-->
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TA-Allocation System</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../../static/student/css/main.css">
+		<style>
+			
+			.t1
+				{
+				
+				width: 200px;
+				text-align: left;
+				}
+			.classx
+				{
+				color : "gray";
+				}
+			.t
+				{
+				width: 400px;
+				}
+			.t2
+				{
+				width: 150px;
+				}
+			.t3
+				{
+				width:70px;
+				}
+			
+			
+		</style>
+	</head>
+	<body id="home" data-spy="scroll" data-target=".main-nav" data-offset="73">
+		<div id="parallax" style="top: 72px;"></div><br><br>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="../../static/student/js/bootstrap.js"></script>
+		<!--<div class="container">-->
+		<section id="header">
+
+		    <nav class="navbar navbar-fixed-top" role="navigation">
+
+		        <div class="navbar-inner">
+		            <div class="container">
+
+		                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#navigation"></button>
+
+		                <!-- Logo goes here - replace the image with your -->
+		                <a href="/index" class="navbar-brand"><img src="../../static/student/img/PicsArt_1387445327268.jpg" alt="Booom! Logo" ></a>
+		                Login: {{user}}
+
+
+
+		                <!--<div class="collapse navbar-collapse main-nav" id="navigation">-->
+
+
+		                    <ul class="nav pull-right">
+
+		                        <!-- Menu items go here -->
+		                        <li class="hidden active"><a href="/">Home</a></li>
+		                        <li class=""><a href="#About">About</a></li>
+		                        <li class=""><a href="#Contact">Contact</a></li>
+		                        <li class=""><a href="/logout">Sign Out</a></li>
+		    
+		                        <!-- If you want sub-menu items, do them like this
+		                        <li>
+		                            <ul>
+		                              <li><a href="#">Item 1</a></li>
+		                              <li><a href="#">Item 2</a></li>
+		                            </ul>
+		                        </li> 
+		                        You just need to delete these comment lines -->
+		                    </ul>
+
+		                <!--</div>--><!-- /nav-collapse -->
+		            </div><!-- /container -->
+		        </div><!-- /navbar-inner -->
+		    </nav>
+
+		</section>
+		<!--<section id="header">	
+			
+			<nav class="navbar navbar-fixed-top" role="navigation">
+            	
+            	<div class="navbar-inner">
+                	<div class="container">
+                  		<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#navigation"></button>
+                  		<div class="collapse navbar-collapse main-nav" id="navigation">
+                  		<ul class="nav">
+                    		<li class="hidden active"><a href="#">Home</a></li>
+                    		<li><a href="#">Projects</a></li>
+                    		<li><a href="#">Services</a></li>
+                    		<li><a href="#">Downloads</a></li> 
+                    		<li><a href="#About">About</a></li>
+                    		<li><a href="#Contact">Contact</a></li>
+                  		</ul>
+                  		</div>
+                	</div>
+            	</div>
+       		</nav>
+       		<hr>
+       	</section>-->
+       	<section id="hero">
+       		
+       		<div class="container">
+		   		<br><br><!--<br><h1 class="muted text-muted text-center classx"><a href="">My Profile</a></h1>-->
+		   		
+		   		<div class="row">
+			   		<div class="col-md-12 hero-unit">
+						<form id="f1" action="/ta/apply/done" method="post" >
+						{% csrf_token %}
+							<h2 class="text-center"><strong>Course Application Form</strong></h2><br><br>
+							<ul>
+							<li style="font-size:18px;"> Please round off your scores to the nearest integer </li>
+							<li style="color:red;font-size:18px;"> Ensure that you enter the correct grades in your course. We will cross-check with your submitted transcripts </li>
+							</ul>
+							<br>
+							<div style="width:800px; margin:0 auto;" class="text-left">
+							<div class="text-left" id ="errors">
+							</div>
+								
+								<table style="width:800px">
+								<tr><td style="width:250px"><strong><u>Course ID</u></strong></td><td>: {{course.cid}}</td>
+								</tr>
+								<tr><td><strong><u>Course Name</u></strong></td><td>: {{course.cname}}</td>
+								</tr>
+								<!--tr><td><strong><u>Year</u></strong></td><td>: {{course.year}}</td>
+								</tr-->
+								<tr><td><strong><u>Professor's Email Id</u></strong></td><td>: {{course.prof_id1.loginid}}</td>
+								</tr>
+								<tr><td><strong><u>TA's Required</u></strong></td><td>: {{course.ta_min}}-{{course.ta_max}}</td>
+								</tr>
+								<tr><td><strong><u>Your Grade in the course</u></strong></td><td>: <input class="validate" type="text" name="grade" value="{{score}}"></td><td style="width:250px; padding-left:10px;"></td>
+								</tr>
+								
+								</table>
+								<br><br>
+								
+								<h4 class="text-left"><strong>Prerequisites</strong><p>(Enter your grades on the scale of 1-10)</p></h4>
+								<table style="width:700px">
+								{% for element in prereqs %}
+								<tr>
+								<td><strong>{{element.prereq.cname}}  </strong></td>
+								<td style="width:250px; padding-left:10px;">: <input class="validate" type="text" name="p_{{element.prereq.aid}}"
+								{% for key, value in gradelist.items %}
+									{% ifequal element.prereq.aid|stringformat:"s" key|stringformat:"s" %}
+										value="{{value}}"
+									{% endifequal %}
+								{% endfor %}></td><td style="width:250px; padding-left:10px;"></td>
+								</tr>
+								{% endfor %}
+								</table>
+								<br><br>
+								
+								<h4 class="text-left"><strong>Skills</strong><p>(Choose your level of skill)</p></h4>
+								<table style="width:800px">
+								{% for element in skills %}
+								<tr>
+								<td><strong>{{element.skill.sname}}  </strong></td>
+								<td><select id="{{element.skill.aid}}" name="s_{{element.skill.aid}}">
+										<option value="0">n/a</option>
+										<option value="5"
+										{% for key, value in slist.items %}
+													{% ifequal element.skill.aid|stringformat:"s" key|stringformat:"s" %}
+														{% ifequal value|stringformat:"s" "5"|stringformat:"s" %}
+															selected="selected"
+														{% endifequal %}	
+													{% endifequal %}
+												{% endfor %} >Low</option>
+										<option value="7"
+										{% for key, value in slist.items %}
+													{% ifequal element.skill.aid|stringformat:"s" key|stringformat:"s" %}
+														{% ifequal value|stringformat:"s" "7"|stringformat:"s" %}
+															selected="selected"
+														{% endifequal %}	
+													{% endifequal %}
+												{% endfor %} >Medium</option>
+										<option value="9"
+										{% for key, value in slist.items %}
+													{% ifequal element.skill.aid|stringformat:"s" key|stringformat:"s" %}
+														{% ifequal value|stringformat:"s" "9"|stringformat:"s" %}
+															selected="selected"
+														{% endifequal %}	
+													{% endifequal %}
+												{% endfor %} >High</option>
+									</select>
+								</td>
+								</tr>
+								{% endfor %}
+								</table>
+							</div>
+							<input type="hidden" value="{{course.aid}}" name="aid" />
+						</form>
+						<div class="text-center">
+							<button id="sb" class="btn btn-large btn-success"> Submit </button>
+						</div>
+		 			</div>
+	 			</div>
+ 			</div><br><br>
+ 			<!--<div class="row">
+         		<div class="span4">
+             		<ul class="nav nav-list">
+    				<li class="nav-header">What we are?</li>
+    				<li class="active"><a href="#">Home</a></li>
+    				<li><a href="#">Our Clients</a></li>
+    				<li><a href="#">Our Services</a></li>
+    				<li><a href="#">About Us</a></li>
+    				<li><a href="#">Contact Us</a></li>
+    				<li class="nav-header">Our Friend</li>
+    				<li><a href="#">Google</a></li>
+    				<li><a href="#">Yahoo!</a></li>
+    				<li><a href="#">Bing</a></li>
+    				<li><a href="#">Microsoft</a></li>
+    				<li><a href="#">Gadgetic World</a></li>
+					</ul>
+        		</div>
+         		<div class="span8">
+             		<h3>How we started ?</h3>
+ 
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+ 
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+ 
+					<h3>How do we market?</h3>
+ 
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+ 
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+         		</div>
+     		</div>-->
+     		
+     		<section id="testimonials">
+     			<div class = "container">
+     				<div class = "row">
+						<div class="span5 col-md-4 text-center" id = "About">
+							
+							<h4 class="muted text-center">About</h4>
+							<p>This is a freeware service designed by students of <a href="http://www.iiitd.ac.in/" rel="nofollow">IIIT - Delhi</a> as a BYLD project.</p>
+							<img src="../../static/student/img/about_us.png" alt="Booom! Logo" height=100 width=340><br><br>
+						</div>
+						<div class="span2">
+						</div>
+						<div class="span5 col-md-4 text-center" id="Contact">
+							
+							<h4 class="muted text-center">Contact</h4>
+							
+							<p>	Prakhar Gupta - prakhar11074@iiitd.ac.in <br>
+						Pulkit Arora - pulkit12082@iiitd.ac.in <br>
+						Manish Rana - manish11063@iiitd.ac.in<br>
+						Sourabh Singh - sourabh11112@iiitd.ac.in<br>
+							</p>
+							<img src="../../static/student/img/contactusf.png" alt="Booom! Logo" height=100 width=300><br><br>
+						</div>
+						<!--<div class="span4">
+							<h4 class="muted text-center">Reach Us</h4>
+							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+							<a href="#" class="btn btn-info">Contact Us</a>
+						</div>-->
+					</div>
+				</div>
+			</section>
+			
+			
+			
+			<section id="footer">
+				<div class="bottom-menu-inverse">
+				    <div class="container">
+				        <div class="row">
+				            <div class="col-md-6">
+				                <p>Copyright © 2014 <br>Made by Prakhar Gupta, Pulkit Arora, Manish Rana and Sourabh Singh</p>
+				            </div>
+
+				            
+				        </div>
+				    
+				    </div><!-- /row -->
+				</div><!-- /container -->
+
+			</section>
+			
+			
+			<!--<section id="features">
+				<div class="container">
+					<div class = "row">
+						<div class="footer">
+							<p>&copy; 2013</p>
+						</div>
+					</div>
+				</div>
+			</section>-->
+	<script>
+	$('#sb').click( function() {
+		er=0;
+		$(".validate").each(function(){
+			if($.isNumeric($(this).val()))
+			{
+				//alert(parseInt($(this).val(), 10));
+				if(parseInt($(this).val(), 10) < 0)
+				{
+					er=1;
+					$(this).parent().append("<font color='red'>Must be greater than 0</font>");
+				}
+				else if(parseInt($(this).val(), 10) > 10)
+				{
+					er=1;
+					$(this).parent().next().html("<font color='red'>Must be smaller than 10</font>");
+				}
+			}
+			else if($(this).val().length == 0) 
+			{
+			}
+			else
+			{
+				er=1;
+				$(this).parent().next().html("<font color='red'>Must be a number</font>");
+			}	
+		});
+		if(er==0)
+		{
+			$('#f1').submit();
+		}
+		else if(er==1)
+		{
+			$("#errors").append("<font color='red'>Fix the following errors</font>");
+			$('html,body').animate({ scrollTop: 0 }, 'slow', function () {});
+		}
+	});
+	</script>
+	</body>
+</html>

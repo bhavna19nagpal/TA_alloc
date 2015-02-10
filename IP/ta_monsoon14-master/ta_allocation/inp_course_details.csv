@@ -1,0 +1,5 @@
+Course_id,CSE102,CSE112/ECE112,DES130,MTH201,TEST101
+ta_min,0,0,0,0,12
+ta_max,0,0,0,0,14
+prereqs,,Introduction to Programming!,,,Linear Circuits!
+skills,,,,,Basic Linux!

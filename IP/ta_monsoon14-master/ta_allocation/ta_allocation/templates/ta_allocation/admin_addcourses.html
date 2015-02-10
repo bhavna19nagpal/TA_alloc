@@ -1,0 +1,902 @@
+{% load bootstrap %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TA-Allocation System</title>
+    	<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+	    <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+  		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
+		
+	</head>
+	<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="../../static/student/js/bootstrap.js"></script>
+	
+	<!-- Static navbar -->
+          <div class='navbar navbar-default' role='navigation'>
+            <div class='container-fluid'>
+              <div class='navbar-header'>
+
+                  <a class='navbar-brand' href='/'><span style='color: #000;'>TA ALLOCATION PORTAL</span></a>
+                </div>
+              <div class='navbar-collapse collapse'>
+
+              <ul class='nav navbar-nav navbar-right'>
+                <li class='active'><a href='/admin'>{{user}}</a></li>
+                  <li><a href = "/">Home</a></li>                
+                <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
+                <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+               <li><a href = "/logout">Sign Out</a></li>
+            </ul>
+              </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+      </div>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
+    position: absolute;
+    top: 10%;'>
+
+      <div class="modal-dialog" style="width: 800px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:40px; text-align:center">Add Courses</h4>
+          </div>
+          <div class = 'modal-body ativa-scroll'>
+          <div class="row">
+          	<div class = 'col-md-4'>
+				<a href="/admin/addcourses/excels" class="btn btn-success btn-lg btn-block" >Add using excel sheet</a>
+			</div>
+		</div>
+					
+					<p>{{str}}</p>
+						<form id="f_gen" action="/admin/addcourses/" method="post" >
+			<div class = 'row'>
+				<div class = 'col-md-4'>
+    				{{form.cid | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.cname | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.cdesc | bootstrap}}
+  				</div>
+  			</div>
+ 			<div class = 'row'> 			
+  				<div class = 'col-md-4'>
+    				{{form.reg_no | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.sem | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.year | bootstrap}}
+  				</div>
+  			</div>
+			<div class = 'row'>  			
+  				<div class = 'col-md-4'>
+    				{{form.prof_id1 | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.prof_id2 | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.tutors_min | bootstrap}}
+  				</div>
+  			</div>
+			<div class = 'row'>  			
+  				<div class = 'col-md-4'>
+    				{{form.tutors_max | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.s_ta_min | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.s_ta_max | bootstrap}}
+  				</div>
+  			</div>
+			<div class = 'row'>  			
+  				<div class = 'col-md-4'>
+    				{{form.j_ta_min | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.j_ta_max | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.btech_ta_min | bootstrap}}
+  				</div>
+  			</div>
+ 			<div class = 'row'> 			
+  				<div class = 'col-md-4'>
+    				{{form.btech_ta_max | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.select_max | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'>
+    				{{form.course_type | bootstrap}}
+  				</div>
+  				<div class = 'col-md-4'></div>
+  			</div>
+  			  
+							{% csrf_token %}
+
+
+							<div class="text-center">
+								<br><input id="f_gen_b" type="submit" class="btn btn-large btn-success" value="Submit">
+							</div>
+						</form>
+						<form id="f_pre" action="/professor/prereq/" method="post" >
+							<h2 class="text-center"><strong>Prerequisites</strong></h2><br>
+
+							<div style="width:1000px; margin:0 auto;" class="text-left">
+								<table id="t_pre" style="width:600px">
+									
+									<tr id="heading1_1"><td><h4>Requirement-1</h4></td></tr>
+									<tr id="year1">
+									<td>Select Year</td> 
+									<td><select class="test" id="pre_year_1" name="pre_year_1">
+										<option value="1">1st year</option>
+										<option value="2">2nd year</option>
+										<option value="3">UG/PG</option>
+										<option value="4">PG</option>
+									</select></td>
+									</tr>
+
+									<tr id="row_1">
+									
+									<td>Select Course</td> 
+									<td><select class ="test" id="pre_subjects_1" name="pre_subjects_1">
+										{% for element in courses1 %}
+
+											<option value="{{element.pid}}">{{element.cname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="priority1">
+									<td>Select Priority</td> 
+									<td><select id="pre_pri_1" name="pre_pri_1">
+										<option value="1">Essential</option>
+										<option value="0">Preferrable</option>
+									</select></td>
+									</tr>
+									<tr id="heading2_2"><td><h4>Requirement-2</h4></td></tr>
+									<tr id="year2">
+									<td>Select Year</td> 
+									<td><select class="test" id="pre_year_2" name="pre_year_2">
+										<option value="1">1st year</option>
+										<option value="2">2nd year</option>
+										<option value="3">UG/PG</option>
+										<option value="4">PG</option>
+									</select></td>
+									</tr>
+									
+									<tr id="row_2">
+									
+									<td>Select Course</td> 
+									<td><select class ="test" id="pre_subjects_2" name="pre_subjects_2">
+										{% for element in courses1 %}
+
+											<option value="{{element.pid}}">{{element.cname }}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="priority2">
+									<td>Select Priority</td> 
+									<td><select id="pre_pri_2" name="pre_pri_2">
+										<option value="1">Essential</option>
+										<option value="0">Preferrable</option>
+									</select></td>
+									</tr>
+									<tr id="heading3_3"><td><h4>Requirement-3</h4></td></tr>
+									<tr id="year3">
+									<td>Select Year</td> 
+									<td><select class="test" id="pre_year_3" name="pre_year_3">
+										<option value="1">1st year</option>
+										<option value="2">2nd year</option>
+										<option value="3">UG/PG</option>
+										<option value="4">PG</option>
+									</select></td>
+									</tr>
+									<tr id="row_3">
+									
+									<td>Select Course</td> 
+									<td><select class ="test" id="pre_subjects_3" name="pre_subjects_3">
+										{% for element in courses1 %}
+
+											<option value="{{element.pid}}">{{element.cname }}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="priority3">
+									<td>Select Priority</td> 
+									<td><select id="pre_pri_3" name="pre_pri_3">
+										<option value="1">Essential</option>
+										<option value="0">Preferrable</option>
+									</select></td>
+									</tr>
+									<tr id="heading4_4"><td><h4>Requirement-4</h4></td></tr>
+									<tr id="year4">
+									<td>Select Year</td> 
+									<td><select class="test" id="pre_year_4" name="pre_year_4">
+										<option value="1">1st year</option>
+										<option value="2">2nd year</option>
+										<option value="3">UG/PG</option>
+										<option value="4">PG</option>
+									</select></td>
+									</tr>
+									<tr id="row_4">
+									
+									<td>Select Course</td> 
+									<td><select class ="test" id="pre_subjects_4" name="pre_subjects_4">
+										{% for element in courses1 %}
+
+											<option value="{{element.pid}}">{{element.cname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="priority4">
+									<td>Select Priority</td> 
+									<td><select id="pre_pri_4" name="pre_pri_4">
+										<option value="1">Essential</option>
+										<option value="0">Preferrable</option>
+									</select></td>
+									</tr>
+									<tr id="heading5_5"><td><h4>Requirement-5</h4></td></tr>
+									<tr id="year5">
+									<td>Select Year</td> 
+									<td><select class="test" id="pre_year_5" name="pre_year_5">
+										<option value="1">1st year</option>
+										<option value="2">2nd year</option>
+										<option value="3">UG/PG</option>
+										<option value="4">PG</option>
+									</select></td>
+									</tr>
+									<tr id="row_5">
+									
+									<td>Select Course</td> 
+									<td><select class ="test" id="pre_subjects_5" name="pre_subjects_5">
+										{% for element in courses1 %}
+
+											<option value="{{element.pid}}">{{element.cname }}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="priority5">
+									<td>Select Priority</td> 
+									<td><select id="pre_pri_5" name="pre_pri_5">
+										<option value="1">Essential</option>
+										<option value="0">Preferrable</option>
+									</select></td>
+									</tr>
+								</table>
+								<button id="add" class="btn btn-large btn-success">Add a prerequisite</button><button style="margin-left:14px;" id="rem" class="btn btn-large btn-success">Remove a prerequisite</button>
+							</div>
+							
+							<!--<h2 class="text-center"><strong>User Profile</strong></h2>
+							<h4>Username</h4><input id="uname" name ="uname" type="text" value="{{ uname }}">-->
+							
+							{% csrf_token %}
+							<!--<div style="width:50px; margin:0 auto; margin-top:3%;">-->
+							<div class="text-center">
+								<input id="f_pre_cid" type="hidden" value="asd" name="cid" />
+								<input id="f_pre_flag" type="hidden" value="0" name="flag" />
+								<br><input id="f_pre_b" type="submit" class="btn btn-large btn-success" value="Submit">
+							</div>
+						</form>						
+						<form id="f_skill" action="/professor/skill/" method="post" >
+							<h2 class="text-center"><strong>Skills</strong></h2><br>
+							<!--<div style="width:200px; margin:0 auto; margin-top:3%;">-->
+							<div style="width:800px; margin:0 auto;" class="text-left">
+								<table id="t_pre" style="width:500px">
+									<tr id="skill_heading1"><td><h4>Skill-1</h4></td></tr>
+									<tr id="skill1">
+									<td>Select kind</td> 
+									<td><select id="skill_kind_1" name="skill_kind_1">
+										{% for element in skills_kind %}
+
+											<option value="{{element.aid}}">{{element.kname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="spec_1">
+									<td>Select Skill</td> 
+									<td><select id="skill_specific_1" name="skill_specific_1">
+										{% for element in skills1 %}
+
+											<option value="{{element.aid}}">{{element.sname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="level_1">
+									<td>Required Level</td><td><select id="skill_value_1" name="skill_value_1">
+										<option value="5">Low</option>
+										<option value="7">Medium</option>
+										<option value="9">High</option>
+									</select></td>
+									</tr>
+									<tr id="skill_heading2"><td><h4>Skill-2</h4></td></tr>
+									<tr id="skill2">
+									<td>Select kind</td> 
+									<td><select id="skill_kind_2" name="skill_kind_2">
+										{% for element in skills_kind %}
+
+											<option value="{{element.aid}}">{{element.kname }}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="spec_2">
+									<td>Select Skill</td> 
+									<td><select id="skill_specific_2" name="skill_specific_2">
+										{% for element in skills1 %}
+
+											<option value="{{element.aid}}">{{element.sname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="level_2">
+									<td>Required Level</td><td><select id="skill_value_2" name="skill_value_2">
+										<option value="5">Low</option>
+										<option value="7">Medium</option>
+										<option value="9">High</option>
+									</select></td>
+									</tr>
+									<tr id="skill_heading3"><td><h4>Skill-3</h4></td></tr>
+									<tr id="skill3">
+									<td>Select kind</td> 
+									<td><select id="skill_kind_3" name="skill_kind_3">
+										{% for element in skills_kind %}
+
+											<option value="{{element.aid}}">{{element.kname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="spec_3">
+									<td>Select Skill</td> 
+									<td><select id="skill_specific_3" name="skill_specific_3">
+										{% for element in skills1 %}
+
+											<option value="{{element.aid}}">{{element.sname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="level_3">
+									<td>Required Level</td><td><select id="skill_value_3" name="skill_value_3">
+										<option value="5">Low</option>
+										<option value="7">Medium</option>
+										<option value="9">High</option>
+									</select></td>
+									</tr>
+									<tr id="skill_heading4"><td><h4>Skill-4</h4></td></tr>
+									<tr id="skill4">
+									<td>Select kind</td> 
+									<td><select id="skill_kind_4" name="skill_kind_4">
+										{% for element in skills_kind %}
+
+											<option value="{{element.aid}}">{{element.kname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="spec_4">
+									<td>Select Skill</td> 
+									<td><select id="skill_specific_4" name="skill_specific_4">
+										{% for element in skills1 %}
+
+											<option value="{{element.aid}}">{{element.sname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="level_4">
+									<td>Required Level</td><td><select id="skill_value_4" name="skill_value_4">
+										<option value="5">Low</option>
+										<option value="7">Medium</option>
+										<option value="9">High</option>
+									</select></td>
+									</tr>
+									<tr id="skill_heading5"><td><h4>Skill-5</h4></td></tr>
+									<tr id="skill5">
+									<td>Select kind</td> 
+									<td><select id="skill_kind_5" name="skill_kind_5">
+										{% for element in skills_kind %}
+
+											<option value="{{element.aid}}">{{element.kname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="spec_5">
+									<td>Select Skill</td> 
+									<td><select id="skill_specific_5" name="skill_specific_5">
+										{% for element in skills1 %}
+
+											<option value="{{element.aid}}">{{element.sname}}</option>
+										{% endfor %}
+									</select></td>
+									</tr>
+									<tr id="level_5">
+									<td>Required Level</td><td><select id="skill_value_5" name="skill_value_5">
+										<option value="5">Low</option>
+										<option value="7">Medium</option>
+										<option value="9">High</option>
+									</select></td>
+									</tr>
+								</table>
+								<button id="add_s" class="btn btn-large btn-success">Add a skill</button><button style="margin-left:14px;" id="rem_s" class="btn btn-large btn-success">Remove a skill</button>
+							</div>
+							
+							<!--<h2 class="text-center"><strong>User Profile</strong></h2>
+							<h4>Username</h4><input id="uname" name ="uname" type="text" value="{{ uname }}">-->
+							
+							{% csrf_token %}
+							<!--<div style="width:50px; margin:0 auto; margin-top:3%;">-->
+							<div class="text-center">
+								<input id="f_skill_cid" type="hidden" value="asd" name="cid" />
+								<input id="f_skill_flag" type="hidden" value="0" name="flag" />
+								<br><input id="f_skill_b" type="submit" class="btn btn-large btn-success" value="Submit">
+							</div>
+						</form>
+						<div class="text-center">
+						<button id="sb" class="btn btn-large btn-success" > Submit </button>
+						</div>
+
+          </div>
+
+      </div>
+    </div>
+    </div>
+			<script>
+		$("#pre_year_1").change(function(){
+			var value=$("#pre_year_1").val();
+			$("#row_1").empty();
+			if (value==1)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_1" name="pre_subjects_1"> {% for element in courses1 %} <option value="{{element.pid}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_1").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_1" name="pre_subjects_1"> {% for element in courses2 %} <option value="{{element.pid}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_1").append(str);			
+			}
+			if (value==3)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_1" name="pre_subjects_1"> {% for element in courses3 %} <option value="{{element.pid}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_1").append(str);			
+			}
+			if (value==4)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_1" name="pre_subjects_1"> {% for element in courses4 %} <option value="{{element.pid}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_1").append(str);			
+			}
+		});
+		
+		$("#pre_year_2").change(function(){
+			var value=$("#pre_year_2").val();
+			$("#row_2").empty();
+			if (value==1)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_2" name="pre_subjects_2"> {% for element in courses1 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_2").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_2" name="pre_subjects_2"> {% for element in courses2 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_2").append(str);			
+			}
+			if (value==3)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_2" name="pre_subjects_2"> {% for element in courses3 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_2").append(str);			
+			}
+			if (value==4)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_2" name="pre_subjects_2"> {% for element in courses4 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_2").append(str);			
+			}
+		});
+		
+		$("#pre_year_3").change(function(){
+			var value=$("#pre_year_3").val();
+			$("#row_3").empty();
+			if (value==1)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_3" name="pre_subjects_3"> {% for element in courses1 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_3").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_3" name="pre_subjects_3"> {% for element in courses2 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_3").append(str);			
+			}
+			if (value==3)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_3" name="pre_subjects_3"> {% for element in courses3 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_3").append(str);			
+			}
+			if (value==4)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_3" name="pre_subjects_3"> {% for element in courses4 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_3").append(str);			
+			}
+		});
+		
+		$("#pre_year_4").change(function(){
+			var value=$("#pre_year_4").val();
+			$("#row_4").empty();
+			if (value==1)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_4" name="pre_subjects_4"> {% for element in courses1 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_4").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_4" name="pre_subjects_4"> {% for element in courses2 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_4").append(str);			
+			}
+			if (value==3)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_4" name="pre_subjects_4"> {% for element in courses3 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_4").append(str);			
+			}
+			if (value==4)
+			{	
+				var str='<td>Select Course</td> <td> <select id="pre_subjects_4" name="pre_subjects_4"> {% for element in courses4 %} <option value="{{element.id}}">{{element.cname}}</option> {% endfor %} </select> </td>';
+				$("#row_4").append(str);			
+			}
+		});
+		var counter_p =0;
+		$('#year1').hide();
+		$('#heading1_1').hide();
+		$('#row_1').hide();
+		$('#priority1').hide();
+		$('#year2').hide();
+		$('#heading2_2').hide();
+		$('#row_2').hide();
+		$('#priority2').hide();
+		$('#year3').hide();
+		$('#heading3_3').hide();
+		$('#row_3').hide();
+		$('#priority3').hide();
+		$('#year4').hide();
+		$('#heading4_4').hide();
+		$('#row_4').hide();
+		$('#priority4').hide();
+		$('#year5').hide();
+		$('#heading5_5').hide();
+		$('#row_5').hide();
+		$('#priority5').hide();
+		$("#rem").prop("disabled",true);
+		$("#add").click(function(e){
+			counter_p = counter_p+1;
+			$("#f_pre_flag").val(counter_p);
+			var str1 = "#year";
+			var res1 = str1.concat(counter_p);
+			var str1_1 = "#heading"
+			var res1_1 = str1_1.concat(counter_p);
+			res1_1 = res1_1.concat("_");
+			res1_1 = res1_1.concat(counter_p);
+			var str2 = "#row_";
+			var res2 = str2.concat(counter_p);
+			var str3 = "#priority";
+			var res3 = str3.concat(counter_p);
+			$(res1).show();
+			$(res1_1).show();
+			$(res2).show();
+			$(res3).show();
+			$("#rem").prop("disabled",false);
+			e.preventDefault();
+			if(counter_p==5)
+			{
+				$(this).prop("disabled",true);
+			}
+	});
+	$("#rem").click(function(e){
+			var str1 = "#year";
+			var res1 = str1.concat(counter_p);
+			var str1_1 = "#heading"
+			var res1_1 = str1_1.concat(counter_p);
+			res1_1 = res1_1.concat("_");
+			res1_1 = res1_1.concat(counter_p);
+			var str2 = "#row_";
+			var res2 = str2.concat(counter_p);
+			var str3 = "#priority";
+			var res3 = str3.concat(counter_p);
+			$(res1).hide();
+			$(res1_1).hide();
+			$(res2).hide();
+			$(res3).hide();
+			counter_p = counter_p-1;
+			$("#f_pre_flag").val(counter_p);
+			$("#add").prop("disabled",false);
+			e.preventDefault();
+			if(counter_p==0)
+			{
+				$(this).prop("disabled",true);
+			}
+    }); 
+	
+	$("#skill_kind_1").change(function(){
+			var value=$("#skill_kind_1").val();
+			$("#spec_1").empty();
+			if (value==1)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_1" name="skill_specific_1"> {% for element in skills1 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_1").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_1" name="skill_specific_1"> {% for element in skills2 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_1").append(str);
+			}
+			if (value==3)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_1" name="skill_specific_1"> {% for element in skills3 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_1").append(str);
+			}
+			if (value==4)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_1" name="skill_specific_1"> {% for element in skills4 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_1").append(str);
+			}
+			if (value==5)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_1" name="skill_specific_1"> {% for element in skills5 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_1").append(str);
+			}
+		});
+	$("#skill_kind_2").change(function(){
+			var value=$("#skill_kind_2").val();
+			$("#spec_2").empty();
+			if (value==1)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_2" name="skill_specific_2"> {% for element in skills1 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_2").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_2" name="skill_specific_2"> {% for element in skills2 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_2").append(str);
+			}
+			if (value==3)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_2" name="skill_specific_2"> {% for element in skills3 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_2").append(str);
+			}
+			if (value==4)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_2" name="skill_specific_2"> {% for element in skills4 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_2").append(str);
+			}
+			if (value==5)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_2" name="skill_specific_2"> {% for element in skills5 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_2").append(str);
+			}
+		});
+	$("#skill_kind_3").change(function(){
+			var value=$("#skill_kind_3").val();
+			$("#spec_3").empty();
+			if (value==1)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_3" name="skill_specific_3"> {% for element in skills1 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_3").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_3" name="skill_specific_3"> {% for element in skills2 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_3").append(str);
+			}
+			if (value==3)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_3" name="skill_specific_3"> {% for element in skills3 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_3").append(str);
+			}
+			if (value==4)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_3" name="skill_specific_3"> {% for element in skills4 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_3").append(str);
+			}
+			if (value==5)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_3" name="skill_specific_3"> {% for element in skills5 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_3").append(str);
+			}
+		});
+	$("#skill_kind_4").change(function(){
+			var value=$("#skill_kind_4").val();
+			$("#spec_4").empty();
+			if (value==1)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_4" name="skill_specific_4"> {% for element in skills1 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_4").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_4" name="skill_specific_4"> {% for element in skills2 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_4").append(str);
+			}
+			if (value==3)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_4" name="skill_specific_4"> {% for element in skills3 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_4").append(str);
+			}
+			if (value==4)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_4" name="skill_specific_4"> {% for element in skills4 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_4").append(str);
+			}
+			if (value==5)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_4" name="skill_specific_4"> {% for element in skills5 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_4").append(str);
+			}
+		});
+	$("#skill_kind_5").change(function(){
+			var value=$("#skill_kind_5").val();
+			$("#spec_5").empty();
+			if (value==1)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_5" name="skill_specific_5"> {% for element in skills1 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_5").append(str);
+			}
+			if (value==2)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_5" name="skill_specific_5"> {% for element in skills2 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_5").append(str);
+			}
+			if (value==3)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_5" name="skill_specific_5"> {% for element in skills3 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_5").append(str);
+			}
+			if (value==4)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_5" name="skill_specific_5"> {% for element in skills4 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_5").append(str);
+			}
+			if (value==5)
+			{	
+				var str='<td>Select skill</td> <td><select id="skill_specific_5" name="skill_specific_5"> {% for element in skills5 %} <option value="{{element.sid}}">{{element.sname}}</option> {% endfor %} </select></td>';
+				$("#spec_5").append(str);
+			}
+		});
+		var counter_s =0;
+		$('#skill1').hide();
+		$('#skill_heading1').hide();
+		$('#spec_1').hide();
+		$('#level_1').hide();
+		$('#skill2').hide();
+		$('#skill_heading2').hide();
+		$('#spec_2').hide();
+		$('#level_2').hide();
+		$('#skill3').hide();
+		$('#skill_heading3').hide();
+		$('#spec_3').hide();
+		$('#level_3').hide();
+		$('#skill4').hide();
+		$('#skill_heading4').hide();
+		$('#spec_4').hide();
+		$('#level_4').hide();
+		$('#skill5').hide();
+		$('#skill_heading5').hide();
+		$('#spec_5').hide();
+		$('#level_5').hide();
+		$("#rem_s").prop("disabled",true);
+		$("#add_s").click(function(e){
+			counter_s = counter_s+1;
+			$("#f_skill_flag").val(counter_s);
+			var str1 = "#skill";
+			var res1 = str1.concat(counter_s);
+			var str1_1 = "#skill_heading";
+			var res1_1 = str1_1.concat(counter_s);
+			var str2 = "#spec_";
+			var res2 = str2.concat(counter_s);
+			var str3 = "#level_";
+			var res3 = str3.concat(counter_s);
+			$(res1).show();
+			$(res1_1).show();
+			$(res2).show();
+			$(res3).show();
+			$("#rem_s").prop("disabled",false);
+			e.preventDefault();
+			if(counter_s==5)
+			{
+				$(this).prop("disabled",true);
+			}
+	});
+	$("#rem_s").click(function(e){
+			var str1 = "#skill";
+			var res1 = str1.concat(counter_s);
+			var str1_1 = "#skill_heading";
+			var res1_1 = str1_1.concat(counter_s);
+			var str2 = "#spec_";
+			var res2 = str2.concat(counter_s);
+			var str3 = "#level_";
+			var res3 = str3.concat(counter_s);
+			$(res1).hide();
+			$(res1_1).hide();
+			$(res2).hide();
+			$(res3).hide();
+			counter_s = counter_s-1;
+			$("#f_skill_flag").val(counter_s);
+			$("#add_s").prop("disabled",false);
+			e.preventDefault();
+			if(counter_s==0)
+			{
+				$(this).prop("disabled",true);
+			}
+    }); 
+	
+	$('#f_gen_b').hide();
+	$('#f_pre_b').hide();
+	$('#f_skill_b').hide();
+	$('#sb').click( function() {
+		var er =0;
+		$("#errors").empty();
+		var str = "<font color='red'>Fix the following errors : <ul>";
+		var all = [{% for element in all %} '{{element.cid}}', {% endfor %}];
+		var cid = $("#id_cid").val().toLowerCase().replace(/\s+/g, '');
+		if(er==0)
+		{
+			$('#f_gen').submit();
+		}
+    });
+	$("#f_gen").submit(function(e)
+		{
+			$("#f_skill_cid").val($("#id_cid").val());
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+			$.ajax(
+			{
+				url : formURL,
+				type: "POST",
+				data : postData,
+				success:function(data, textStatus, jqXHR) 
+				{
+					$("#f_pre").submit();
+				},
+				error: function(jqXHR, textStatus, errorThrown) 
+				{
+					alert("NOOO");
+					alert(errorThrown);//if fails      
+				}
+			});
+			e.preventDefault(); //STOP default action
+			e.unbind(); //unbind. to stop multiple form submit.
+		});
+		$("#f_pre").submit(function(e)
+		{
+			$("#f_pre_cid").val($("#id_cid").val());
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+			$.ajax(
+			{
+				url : formURL,
+				type: "POST",
+				data : postData,
+				success:function(data, textStatus, jqXHR) 
+				{
+					$("#f_skill").submit();
+				},
+				error: function(jqXHR, textStatus, errorThrown) 
+				{
+					//if fails      
+				}
+			});
+			e.preventDefault(); //STOP default action
+			e.unbind(); //unbind. to stop multiple form submit.
+		});
+		</script>
+
+
+<script type="text/javascript">
+  $(document).ready(ajustamodal);
+  $(window).resize(ajustamodal);
+  function ajustamodal() {
+    var altura = $(window).height() - 155; //value corresponding to the modal heading + footer
+    $(".ativa-scroll").css({"height":altura,"overflow-y":"auto"});
+  }
+</script>
+	</body>
+</html>
