@@ -1,1 +1,5 @@
-myproject
+Initial changes continued from the previous version
+
+1. Visibility of student database from the portal for Admin and DOAA.
+2. Enforcing form filling for students.
+3. Student can say they are not doing TA-ship in the corresponding semester.

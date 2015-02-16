@@ -70,7 +70,7 @@
                   <div class = 'row' style = 'font-size:25'>
                     <b>
                       <div class = 'col-md-1'></div>
-                      <div class = 'col-md-5' >Name</div>
+                      <div class = 'col-md-5' >Email</div>
                       <div class = 'col-md-2'>Role</div>
                     </b>
                   </div><br>
@@ -101,7 +101,11 @@
                    <div class = 'col-md-2'>
                       <a href = '/admin/edituser/{{ item.aid }}'>Edit</a>
                     </div>
-
+                   {% if item.role == 0 %}
+	               <div class = 'col-md-2'>
+                      <a href = '/admin/viewuserprofile/{{ item.aid }}'>Profile</a>
+                    </div>
+                   {% endif %} 
                   </div>
 								    {% endfor %}
 								

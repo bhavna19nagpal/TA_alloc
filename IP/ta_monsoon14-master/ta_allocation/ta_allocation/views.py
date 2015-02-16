@@ -19,6 +19,7 @@ from xlutils.copy import copy
 from django.core.mail import send_mail, EmailMessage
 from django.db.models import Q
 from subprocess import call
+from django.core.urlresolvers import *
 
 #Loads Home page(that contains the choices TA and Professor) if the user is authenticated and index page otherwise
 def index(request):
@@ -2223,6 +2224,29 @@ def admin_editroles(request,param):
 			return render(request, 'ta_allocation/admin_editroles.html', {'form': form,'entry':entry})
 	else:
 		return render(request, 'ta_allocation/index.html', {'user':request.user.username})
+
+#Function to view User Profile of a TA from admin page.		
+def viewuserprofile(request,param):
+	if request.user.is_authenticated():
+		try:
+			entry = role_list.objects.get(loginid = request.user.email)
+			if(entry.role==0):
+				return redirect(student_index)
+			elif(entry.role==1):
+				return redirect(prof_index)
+			elif(entry.role!=8 and entry.role!=9):
+				return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		except role_list.DoesNotExist:
+			return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		Previous_path = resolve(request.path).url_name
+		if request.method == 'GET':
+			entry = role_list.objects.get(aid=param)
+			GeneralInfo = student_general.objects.get(loginid=entry.loginid)
+			form = roles_form(
+				initial ={'loginid':entry.loginid,'role':entry.role,'program':entry.program,'name':GeneralInfo.name,'roll':GeneralInfo.roll_no})
+			return render(request, 'ta_allocation/admin_viewuserprofile.html', {'form': form,'entry':entry,'info':GeneralInfo,'path':Previous_path})
+	else:
+		return render(request, 'ta_allocation/index.html', {'user':request.user.username})		
 		
 def admin_addroles(request):
 	if request.user.is_authenticated():

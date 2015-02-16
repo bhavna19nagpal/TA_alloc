@@ -70,17 +70,19 @@
                   <div class = 'row' style = 'font-size:17'>
 
 
-              <div class = 'col-md-6'><b>Students EMail</b></div>
-              <div class = 'col-md-6'><b>Course Code</b></div>
+              <div class = 'col-md-4'><b>Students Email</b></div>
+              <div class = 'col-md-4'><b>Course Code</b></div>
 
           </div>
 					{% for item in appls %}
 
 
                    	<div class = 'row' style = 'font-size:17'>
-                   	  <div class = 'col-md-6'>{{ item.uid.loginid.loginid }}</div>
-                      <div class = 'col-md-6'>{{ item.cid.cid }}</div>
-	                      
+                   	  <div class = 'col-md-4'>{{ item.uid.loginid.loginid }}</div>
+                      <div class = 'col-md-4'>{{ item.cid.cid }}</div>
+                      <div class = 'col-md-4'>
+                      		<a href = '/doa/viewuserprofile/{{ item.uid.loginid.aid }}'>Profile</a>
+                      </div>    
                     
                   	</div>
 					

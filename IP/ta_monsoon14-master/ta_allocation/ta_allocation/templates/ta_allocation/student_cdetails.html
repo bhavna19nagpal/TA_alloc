@@ -71,7 +71,7 @@
                 </tr>
                 <tr><td><strong><u>TA's Required</u></strong></td><td>: {{course.ta_min}}-{{course.ta_max}}</td>
                 </tr>
-                <tr><td><strong><u>Your Grade in the course</u></strong></td><td>: <input class="validate" type="text" name="grade" value="{{score}}"></td><td style="width:250px; padding-left:10px;"></td>
+                <tr><td><strong><u>Your Grade in the course</u></strong></td><td>: <input class="GradeValidation" type="text" name="grade" value="{{score}}"></td><td style="width:250px; padding-left:10px;"></td>
                 </tr>
                 
                 </table>
@@ -82,7 +82,7 @@
                 {% for element in prereqs %}
                 <tr>
                 <td><strong>{{element.prereq.cname}}  </strong></td>
-                <td style="width:250px; padding-left:10px;">: <input class="validate" type="text" name="p_{{element.prereq.aid}}"
+                <td style="width:250px; padding-left:10px;">: <input class="GradeValidation" type="text" name="p_{{element.prereq.aid}}"
                 {% for key, value in gradelist.items %}
                   {% ifequal element.prereq.aid|stringformat:"s" key|stringformat:"s" %}
                     value="{{value}}"
@@ -98,7 +98,7 @@
                 {% for element in skills %}
                 <tr>
                 <td><strong>{{element.skill.sname}}  </strong></td>
-                <td><select id="{{element.skill.aid}}" name="s_{{element.skill.aid}}">
+                <td><select class= "SkillValidation" id="{{element.skill.aid}}" name="s_{{element.skill.aid}}">
                     <option value="0">n/a</option>
                     <option value="5"
                     {% for key, value in slist.items %}
@@ -248,19 +248,20 @@
   <script>
   $('#sb').click( function() {
     er=0;
-    $(".validate").each(function(){
+    $("g").remove(); 	
+    $(".GradeValidation").each(function(){
       if($.isNumeric($(this).val()))
       {
         //alert(parseInt($(this).val(), 10));
-        if(parseInt($(this).val(), 10) < 0)
+        if(parseInt($(this).val(), 10) <= 0)
         {
           er=1;
-          $(this).parent().append("<font color='red'>Must be greater than 0</font>");
+          $(this).parent().append("<g><font color='red'><br/>Must be greater than 0</font></g>");
         }
         else if(parseInt($(this).val(), 10) > 10)
         {
           er=1;
-          $(this).parent().next().html("<font color='red'>Must be smaller than 10</font>");
+          $(this).parent().next().html("<g><font color='red'><br/>Must be smaller than 10</font></g>");
         }
       }
       else if($(this).val().length == 0) 
@@ -269,8 +270,15 @@
       else
       {
         er=1;
-        $(this).parent().next().html("<font color='red'>Must be a number</font>");
+        $(this).parent().next().html("<g><font color='red'><br/>Must be a number</font></g>");
       } 
+    });
+    $(".SkillValidation").each(function(){
+      if(parseInt($(this).val(), 10)==0)
+      {
+      	  er=1;
+          $(this).parent().append("<g><font color='red'><br/>Required Field</font></g>");
+      }  
     });
     if(er==0)
     {
