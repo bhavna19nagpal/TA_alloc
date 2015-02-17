@@ -246,27 +246,30 @@
 	<script>
 	$('#sb').click( function() {
 		er=0;
+		$("g").remove();
 		$(".grade").each(function(){
 			if($.isNumeric($(this).val()))
 			{
 				if(parseInt($(this).val(), 10) < 0)
 				{
 					er=1;
-					$(this).parent().next().html("<font color='red'>Must be greater than 0</font>");
+					$(this).parent().next().html("<g><font color='red'>Must be greater than 0</font></g>");
 				}
 				else if(parseInt($(this).val(), 10) > 10)
 				{
 					er=1;
-					$(this).parent().next().html("<font color='red'>Must be smaller than 10</font>");
+					$(this).parent().next().html("<g><font color='red'>Must be smaller than 10</font></g>");
 				}
 			}
 			else if($(this).val().length == 0) 
 			{
+				er=1;
+				$(this).parent().next().html("<g><font color='red'>*Required Field</font></g>");
 			}
 			else
 			{
 				er=1;
-				$(this).parent().next().html("<font color='red'>Must be a number</font>");
+				$(this).parent().next().html("<g><font color='red'>Must be a number</font></g>");
 			}	
 		});
 		if(er==0)
@@ -275,7 +278,7 @@
 		}
 		else if(er==1)
 		{
-			$("#errors").append("<font color='red'>Fix the following errors</font>");
+			$("#errors").append("<g><font color='red'>Fix the following errors</font></g>");
 			$('html,body').animate({ scrollTop: 0 }, 'slow', function () {});
 		}
 	});

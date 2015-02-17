@@ -99,7 +99,8 @@
                 <tr>
                 <td><strong>{{element.skill.sname}}  </strong></td>
                 <td><select class= "SkillValidation" id="{{element.skill.aid}}" name="s_{{element.skill.aid}}">
-                    <option value="0">n/a</option>
+                    <option value="-1">Not Specified</option>
+                    <option value="0">NA</option>
                     <option value="5"
                     {% for key, value in slist.items %}
                           {% ifequal element.skill.aid|stringformat:"s" key|stringformat:"s" %}
@@ -253,19 +254,16 @@
       if($.isNumeric($(this).val()))
       {
         //alert(parseInt($(this).val(), 10));
-        if(parseInt($(this).val(), 10) <= 0)
+        if(parseInt($(this).val(), 10) < 0 || parseInt($(this).val(), 10) > 10)
         {
           er=1;
-          $(this).parent().append("<g><font color='red'><br/>Must be greater than 0</font></g>");
-        }
-        else if(parseInt($(this).val(), 10) > 10)
-        {
-          er=1;
-          $(this).parent().next().html("<g><font color='red'><br/>Must be smaller than 10</font></g>");
+          $(this).parent().append("<g><font color='red'><br/>Grade must be in 0 to 10</font></g>");
         }
       }
       else if($(this).val().length == 0) 
       {
+      	er=1;
+        $(this).parent().next().html("<g><font color='red'><br/>*Required Field</font></g>");
       }
       else
       {
@@ -274,10 +272,10 @@
       } 
     });
     $(".SkillValidation").each(function(){
-      if(parseInt($(this).val(), 10)==0)
+      if(parseInt($(this).val(), 10)==-1)
       {
       	  er=1;
-          $(this).parent().append("<g><font color='red'><br/>Required Field</font></g>");
+          $(this).parent().append("<g><font color='red'>*Required Field</font></g>");
       }  
     });
     if(er==0)
@@ -286,7 +284,7 @@
     }
     else if(er==1)
     {
-      $("#errors").append("<font color='red'>Fix the following errors</font>");
+      $("#errors").append("<g> <font color='red'>Fix the following errors</font></g>");
       $('html,body').animate({ scrollTop: 0 }, 'slow', function () {});
     }
   });

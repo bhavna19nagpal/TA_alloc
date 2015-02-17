@@ -48,8 +48,11 @@
           <div class="modal-body ativa-scroll" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:20px; text-align:center"> {{ str }} 
 		   			
 							<!--<div style="width:200px; margin:0 auto; margin-top:3%;">-->
+							<div class ='col-md-6' >
+							<input type="checkbox" id="cbox1" onclick="checkAll()">Mark all n/a</input>
+							</div>
 							<div style="width:800px; margin:0 auto;" class="text-left">	
-							<form id="grades" action="" method="post">
+							<form id="skill_form" action="" method="post">
 							{% csrf_token %}
 							{% for kind in klist %}
 								{% for k, v in skills.items %}
@@ -66,8 +69,9 @@
 											<!--strong>{{element.kind.kid}} -> {{element.sname}} </strong><br-->
 											{{element.sname}}
                     </div>
-                    <div class = 'col-md-3'>
-											<select id="{{element.aid}}" name="id_{{element.aid}}">
+                    <td class = 'col-md-3'>
+											<select class="SkillValidation" id="{{element.aid}}" name="id_{{element.aid}}">
+												<option value="-1">Not Specified</option>
 												<option value="0">n/a</option>
 												<option value="5"
 												{% for key, value in slist.items %}
@@ -94,7 +98,7 @@
 													{% endifequal %}
 												{% endfor %} >High</option>
 												</select>
-                      </div>
+                      </td>
 										
                   </div>
                   {% endfor %}
@@ -125,7 +129,7 @@
                 <div class = 'row'>
                   <div class = 'col-md-4'></div>
                   <div class = 'col-md-4'>
-							<br><input type="submit" class="btn btn-large btn-block btn-success" value="Submit">
+							<br><input id="submit" class="btn btn-large btn-block btn-success" value="Submit">
             </div>
             </div>
             </div>
@@ -238,9 +242,44 @@
     <script type="text/javascript" src='../../static/student/js/jquery-1.10.2.min.js'></script>
     <script type="text/javascript" src='../../static/student/js/bootstrap.min.js'></script>
     <script type="text/javascript" src='../../static/student/js/jquery.js'></script>
-
-
-
+  <!--Skill form Validation-->  
+<script>
+ $('#submit').click( function() {
+    er=0;
+    $("g").remove(); 	
+    $(".SkillValidation").each(function(){
+      if(parseInt($(this).val(), 10)==-1)
+      {
+      	  er=1;
+          $(this).parent().append("<g><font color='red'>*Required Field</font></g>");
+      }  
+    });
+    if(er==0)
+    {
+      $('#skill_form').submit();
+    }
+    else if(er==1)
+    {
+      $("#errors").append("<g><font color='red'>Fix the following errors</font></g>");
+      $('html,body').animate({ scrollTop: 0 }, 'slow', function () {});
+    }
+  });
+  
+function checkAll()
+{ if(document.getElementById("cbox1").checked == true)
+  {
+  	  var selectList= document.getElementsByTagName("select");;
+	  alert(selectList.length); 	
+	  for (i = 0; i < selectList.length; i++) {
+	  	selectList[i].value = "0";
+	  }
+  }
+  else
+  {
+      window.location.reload();		  
+  }
+}  
+</script>
 </body>
 </html>
 

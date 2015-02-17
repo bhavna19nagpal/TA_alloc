@@ -481,7 +481,7 @@ def student_cdetails(request):
 				sa1 = student_application.objects.get(uid = entry, cid=course_obj)
 				score = sa1.value
 			except student_application.DoesNotExist:
-				score = 0
+				score = ""
 			prereqs=prereq_mapping.objects.filter(cid=course_obj)
 			skills=skill_mapping.objects.filter(cid=course_obj)
 			stu_skills = student_skill_level.objects.filter(uid = entry_role)
