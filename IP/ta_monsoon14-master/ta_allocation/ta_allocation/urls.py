@@ -23,6 +23,7 @@ urlpatterns = patterns('',
 	url(r'^ta/profile/enable$', student_enable, name='enable'),
 	url(r'^ta/profile/disable$', student_disable, name='disable'),
 	url(r'^ta/apply/$', student_apply, name='apply'), #apply for courses
+	url(r'^ta/requestpage/$', requestPage, name='requestPage'), #Request/complaint Page
 	url(r'^ta/apply/details$', student_cdetails, name='details'), #details for courses
 	url(r'^ta/apply/done$', student_cdone, name='done'), #done
 
@@ -39,6 +40,7 @@ urlpatterns = patterns('',
 	url(r'^professor/mycourses/$', prof_allcourses, name='mycourses'), #courses of a logged in professor
 	# url(r'^professor/mycourses/select$', prof_selectta, name='selectta'), #edit course details
 	url(r'^professor/applications/(?P<param>.+)', prof_applications, name='selectta'), #edit course details
+	url(r'^professor/requestpage/$', requestPage, name='requestPage'),
 	
 
 
@@ -61,6 +63,8 @@ urlpatterns = patterns('',
 	url(r'^doa/results$', doa_results, name='index'),
 	url(r'^doa/courseresults/(?P<param>.+)$', doa_courseresults, name='index'),
 	url(r'^doa/viewuserprofile/(?P<param>.+)$', viewuserprofile, name='/doa/allapplications'),
+	url(r'^doa/requestpage/$', requestPage, name='requestPage'), #Request/complaint Page
+	url(r'^doa/viewrequests/$', viewRequests, name='requestsDoa'), #Request/complaint Page
 	
 	#url(r'^doa/csv/$', views.dcsv, name='dcsv'),
 	#url(r'^doa/selectedta/$', views.selectedta, name='selectedta'),
@@ -101,5 +105,8 @@ urlpatterns = patterns('',
 	url(r'^admin/delete_skills/(?P<param>.+)', admin_deleteskills, name='index'),
 	url(r'^admin/addprereq_course/(?P<param>.+)', admin_addprereq_course, name='index'),
 	url(r'^admin/addskill_course/(?P<param>.+)', admin_addskill_course, name='index'),
+	url(r'^admin/requestpage/$', requestPage, name='requestPage'),
+	url(r'^admin/viewrequests/$', viewRequests, name='requestsAdmin'), #Requests
+	url(r'^admin/delete_requests/(?P<param>.+)', DeleteRequests, name='index'),
 	url('', include('social.apps.django_app.urls', namespace='social')),
 )

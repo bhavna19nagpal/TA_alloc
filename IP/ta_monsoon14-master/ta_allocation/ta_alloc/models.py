@@ -21,6 +21,11 @@ class role_list(models.Model):
 	def __unicode__(self):
 		return str(self.aid)
 
+class complaints_request(models.Model):
+	aid = models.AutoField(primary_key=True)
+	uid = models.ForeignKey(role_list)
+	req = models.CharField(max_length=502)
+
 class policy(models.Model):
 	course_type = models.IntegerField(primary_key=True, default=4) #1->Core 2->Core Elective 3-> Required elective 4-> Free Elective
 	ratio_tutors_min =  models.IntegerField(default=1) #min value of tutors's needed according to reg no

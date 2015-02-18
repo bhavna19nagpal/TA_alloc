@@ -208,9 +208,64 @@ def student_profile(request):
 	else:
 		return render(request, 'ta_allocation/index.html', {'user':request.user.username})
 
-
-
-
+##### Render to request or Complaint Page and View Requests
+def requestPage(request):
+	if request.user.is_authenticated():
+		entry_role = role_list.objects.get(loginid = request.user.email)
+		if request.method == 'POST':
+			complaint=request.POST.get('textBox',False)
+			complaint = (data[:500] + '..') if len(complaint) > 500 else complaint
+			print complaint 
+			ComplaintObj= complaints_request.objects.create(uid=entry_role, req=complaint)
+			ComplaintObj.save()
+			s1 = "Your Complaint/Request has been Submitted"
+			return render(request, 'ta_allocation/requestpage.html',{'str':s1, 'userobj':entry_role,'user':request.user.username})
+		else:
+			return render(request, 'ta_allocation/requestpage.html',{'userobj':entry_role,'user':request.user.username})	
+	else:
+		return render(request, 'ta_allocation/index.html', {'userobj':request.user.username,'user':request.user.username})
+		
+		
+def viewRequests(request):
+	if request.user.is_authenticated():
+		try:
+			entry = role_list.objects.get(loginid = request.user.email)
+			if(entry.role==0):
+				return redirect(student_index)
+			elif(entry.role==1):
+				return redirect(prof_index)
+			elif(entry.role!=8 and entry.role!=9):
+				return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		except role_list.DoesNotExist:
+			return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		entry = role_list.objects.get(loginid = request.user.email)
+		requests = complaints_request.objects.all()
+		return render(request, 'ta_allocation/viewrequests.html', {'requests': requests})	
+		
+def DeleteRequests(request,param):
+	print param
+	param_split = param.split(',')
+	print param_split
+	if request.user.is_authenticated():
+		try:
+			entry = role_list.objects.get(loginid = request.user.email)
+			if(entry.role==0):
+				return redirect(student_index)
+			elif(entry.role==1):
+				return redirect(prof_index)
+			elif(entry.role!=8 and entry.role!=9):
+				return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		except role_list.DoesNotExist:
+			return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		entry = role_list.objects.get(loginid = request.user.email)
+		requests = complaints_request.objects.all()
+		for a in param_split:
+			complaints_request.objects.get(aid=int(a)).delete()
+		return redirect(viewRequests)
+	else:
+		return render(request, 'ta_allocation/index.html')
+			
+#######
 
 def student_disable(request):
 	print "in disable"
@@ -1944,6 +1999,7 @@ def doa_upload_registration(request):
 			return render(request, 'ta_allocation/doa_registration_excel.html', {'form': form,'str':"", 'roles_path':roles_path})
 	else:
 		return render(request, 'ta_allocation/index.html')
+
 def doa_allapplications(request):
 	if request.user.is_authenticated():
 		try:
@@ -1979,7 +2035,8 @@ def doa_download_algoresult(request):
 		pref_path = os.path.join(os.getcwd(),'preferences.csv')
 		util_path = os.path.join(os.getcwd(),'utility.csv')
 		final_path  = os.path.join(os.getcwd(),'final.csv')
-		filenames = [pref_path,util_path,final_path]
+		stats_path = os.path.join(os.getcwd(),'Total.jpeg')
+		filenames = [pref_path,util_path,final_path,stats_path]
 		zip_subdir = os.getcwd()
 		zip_filename = "AlgoResults.zip"
 		s = StringIO.StringIO()
@@ -1998,6 +2055,7 @@ def doa_download_algoresult(request):
 		resp['X-Sendfile'] = pref_path
 		resp['X-Sendfile'] = util_path
 		resp['X-Sendfile'] = final_path
+		resp['X-Sendfile'] = stats_path
 		return resp
 	else:
 		return render(request, 'ta_allocation/index.html',{'user':request.user.username})
