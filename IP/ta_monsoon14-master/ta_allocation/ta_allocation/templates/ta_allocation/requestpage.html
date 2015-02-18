@@ -1,15 +1,15 @@
 {% load bootstrap %}
 
 <html>
-		
-			<head>
-    		<title>Professor | All Courses</title>
-    		<link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
-			  <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
-    		<link href='../../static/student/css/siimple.css' rel='stylesheet'>
- 			</head>
+    
+      <head>
+        <title>Register Requests and Complaints</title>
+        <link href='../../static/student/css/bootstrap.min.css' rel='stylesheet'>
+        <link href='../../static/student/css/home-specific.css' rel='stylesheet'>
+        <link href='../../static/student/css/siimple.css' rel='stylesheet'>
+      </head>
 
-			<body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
+      <body style='background-image:url(../../static/student/img/iiitd1.jpg); background-size: 139%, 139%;'>
 
           <!-- Static navbar -->
           <div class='navbar navbar-default' role='navigation'>
@@ -21,39 +21,64 @@
               <div class='navbar-collapse collapse'>
 
               <ul class='nav navbar-nav navbar-right'>
+                {% if userobj.role == 0%}
+                <li class='active'><a href='/ta'>{{user}}</a></li>
+                {% else %}
                 <li class='active'><a href='/admin'>{{user}}</a></li>
-                  <li><a href = "/">Home</a></li>                
+                {% endif %}
                 <li><a  class = 'button' href = "#" data-toggle="modal" data-target="#about-modal">About</a></li>           
                 <li><a href = "#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
-                <li class='dropdown'>
-						  <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Options<span class='caret'></span></a>
-						  <ul class='dropdown-menu' role='menu'>
-							  <li><a href='/professor/requestpage'>Request/Complaints</a></li>
-							  <li class='divider'></li>
-							  <li><a href='/logout'>Sign Out</a></li>
-						  </ul>
-				</li>
-            </ul>
+				<li><a href = "/logout">Sign Out</a></li>      
+              </ul>
               </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
-      </div><br><br>
- <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = 'margin: 0;
-    position: absolute;
-    top: 45%;'>
+      </div>
 
-      <div class="modal-dialog" style="width: 800px;">
 
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:30px; text-align:center">Welcome {{user}}</h4><br>
-            <a href = '/professor/mycourses'><div style = 'text-align:center'><button class = 'btn btn-primary btn-lg'>View courses</button></div></a>
-          </div>
+ <div id='loginModal' class='modal show' tabindex='-1' role='dialog' aria-hidden='true' style = '
+  position: relative;
+  top: 0%;
+  transform: translateY(15%);'>
 
+      <div class='modal-dialog' style='width:1000px'>
+
+        <div class='modal-content'><br>
+        	<div class = 'modal-header'>
+        		<h4 class="modal-title" id="myModalLabel" style = 'font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size:40px; text-align:center' >Register Requests/Complaints</h4>
+        	</div>
+   			<div class="modal-body ativa-scroll" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:20px; text-align:center"> {{ str }} 
+			   	<br><br>		
+				<form id="f1" action="" method="post" > {% csrf_token %}
+					<div class = 'row' style = 'font-size:20px;'>
+				        <div class = 'col-md-2'></div>
+				        <div class = 'col-md-1'></div>
+				        <div class = 'col-md-6'>Enter Query and Click Submit:</div>
+				        
+				    </div>
+					<div class = 'row'>
+						<div class = 'col-md-2'></div>
+						<div class = 'col-md-1'></div>
+						<div class = 'col-md-6'>
+							<textarea id="textBox" name="textBox" class="form-control" rows="5" cols="100"></textarea>
+						</div>		
+					</div>
+					<div class = 'row'>
+						<div class = 'col-md-2'></div>
+						<div class = 'col-md-3'></div>
+						<div class = 'col-md-2'>
+							<br><input type="submit" class="btn btn-success btn-lg btn-block" value="Submit" >
+						</div>
+					</div>
+		         </form>
+		    </div>     
+			</div>
+		</div>
     </div>
-    </div>
-</div>
 
-	 <!-- contact modal -->
+            <br><br><br><br><br><br><br>
+
+
+   <!-- contact modal -->
 
 
 <div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -118,6 +143,7 @@
         </div>
       </div><br>
 
+
       </div>
       
     </div>
@@ -156,67 +182,12 @@
     <script type="text/javascript" src='../../static/student/js/bootstrap.min.js'></script>
     <script type="text/javascript" src='../../static/student/js/jquery.js'></script>
     <script>
-  document.getElementById("delete").disabled = true;
-  
-</script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-</script>
-<script>
-$('input[type="checkbox"]').on('change', function() {
-    checked_vals()
-}).change();
-
-function checked_vals(){
-    var checked_ids=[];
-    $('input[type="checkbox"]:checked').map(function() {
-        checked_ids.push(this.aid);
-    });
-    // console.log(checked_ids );
-    // console.log(checked_ids.length);
-    if(checked_ids.length==0){
-      
-      document.getElementById("delete").disabled = true;
-    }
-    
-    if(checked_ids.length>=1){
-      
-      document.getElementById("delete").disabled = false;
-      
-      
-      $("#delete").attr("href","/admin/delete_courses/"+checked_ids);
-      
-      // $("#delete1").attr("data-confirm","are you sure you want to delete "+checked_ids.length+" items?");
-    }
-
-}
-</script>
-<script >
-function executeOnSubmit()
-{
-        var checked_ids=[];
-        $('input[type="checkbox"]:checked').map(function() {
-            checked_ids.push(this.id);
+      $('#clos').click(function(){
+      $('#status-modal').modal('hide')
         });
-        console.log(checked_ids);
-        var res = confirm("Are you sure you want to delete "+checked_ids.length+" courses?");
-        // link = "/delete_departments?ids="+checked_ids;
-        // alert(link);
-        console.log(checked_ids);
-        if(res==true)
-                location.href="/admin/delete_courses/"+checked_ids;
-      
-        else
-                return false;
-}
-</script>
-<script type="text/javascript">
-  $(document).ready(ajustamodal);
-  $(window).resize(ajustamodal);
-  function ajustamodal() {
-    var altura = $(window).height() - 155; //value corresponding to the modal heading + footer
-    $(".ativa-scroll").css({"height":altura,"overflow-y":"auto"});
-  }
-</script>
+    </script>
+
+
 
 
 </body>
