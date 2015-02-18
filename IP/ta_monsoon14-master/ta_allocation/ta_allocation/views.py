@@ -1023,7 +1023,35 @@ def reminder_mail():
 			email = EmailMessage('[TA-Allocation] Reminder to update your course details', 'Your course "'+c.cname+'" does not have any pre-requisites or skills yet. Login here: byld5.iiitd.edu.in and edit the details of your course here: byld5.iiitd.edu.in/professor/editcourse/'+str(c.aid)+' . Kindly update it as soon as possible. ', 'pulkit12082@iiitd.ac.in',[c.prof_id2.loginid])
 			email.send()
 				
+###Confirmation Emails to Allocated Students
+def doa_confirmation(request):
+	if request.user.is_authenticated():
+		try:
+			entry = role_list.objects.get(loginid = request.user.email)
+			if(entry.role==0):
+				return redirect(student_index)
+			elif(entry.role==8):
+				return redirect(admin_index)
+			elif(entry.role==1):
+				return redirect(prof_index)
+			elif(entry.role!=9):
+				return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		except role_list.DoesNotExist:
+			return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
+		confirmation_mail()
+		return render(request, 'ta_allocation/doa_confirmation.html',{'user':request.user.username})
+	else:
+		return render(request, 'ta_allocation/index.html',{'user':request.user.username})
 
+
+
+def confirmation_mail():
+	allocatedList = student_allocated.objects.all()
+	for St in allocatedList:
+		if St.student_id.loginid!=None:
+			email = EmailMessage('[TA-Allocation] Confirmation Email', 'Your TA application for "'+St.course_id.cname+'" has been accepted and approved. Congratulations !!!', 'pulkit12082@iiitd.ac.in',[St.student_id.loginid])
+			email.send()
+###
 
 def doa_allocation(request):
 	if request.user.is_authenticated():
@@ -2094,7 +2122,8 @@ def doa_courseresults(request,param):
 					try:
 						entry = student_allocated.objects.get(student_id=entry_role_student,course_id=c)
 					except student_allocated.DoesNotExist:
-						entry = student_selected.objects.create(uid= entry_role_student, cid=c)	
+						#entry = student_selected.objects.create(uid= entry_role_student, cid=c)	
+						entry = student_allocated.objects.create(student_id=entry_role_student,course_id=c)	
 						entry.save()
 
 				if(int(request.POST['type'])==-1):
@@ -2131,7 +2160,17 @@ def doa_courseresults(request,param):
 			selected = list_selected
 			not_selected = student_application.objects.filter(cid=course_obj,status=0)
 			not_selected = list_not_selected
-			return render(request, 'ta_allocation/doa_courseresults.html', {'course': course_obj, 'selected':selected, 'not_selected':not_selected,'str':""})
+			allocatedCount= student_allocated.objects.all().count()
+			MinReqTA=course_obj.s_ta_min+course_obj.j_ta_min+course_obj.btech_ta_min
+			CountTA=[0,0,0]
+			for obj in selected:
+				if obj.uid.program ==0:
+					CountTA[0]=CountTA[0]+1
+				elif obj.uid.program ==4 or obj.uid.program ==5:
+					CountTA[1]=CountTA[1]+1	
+				elif obj.uid.program ==7:
+					CountTA[1]=CountTA[1]+1
+			return render(request, 'ta_allocation/doa_courseresults.html', {'course': course_obj, 'selected':selected, 'not_selected':not_selected,'str':"","Min":MinReqTA,"alloc":allocatedCount,"tacount":CountTA})
 		else:
 			course_obj = course.objects.get(aid = int(param))
 			selected = student_application.objects.filter(cid=course_obj)
@@ -2144,12 +2183,23 @@ def doa_courseresults(request,param):
 			for s in selected:
 				if s.uid.loginid in list_stud_sels:
 					list_selected.append(s)
+					
 				else:
 					list_not_selected.append(s)
 			selected = list_selected
 			not_selected = student_application.objects.filter(cid=course_obj,status=0)
 			not_selected = list_not_selected
-			return render(request, 'ta_allocation/doa_courseresults.html', {'course': course_obj, 'selected':selected, 'not_selected':not_selected,'str':""})
+			allocatedCount= student_allocated.objects.all().count()
+			MinReqTA=course_obj.s_ta_min+course_obj.j_ta_min
+			CountTA=[0,0,0]
+			for obj in selected:
+				if obj.uid.program ==0:
+					CountTA[0]=CountTA[0]+1
+				elif obj.uid.program ==4 or obj.uid.program ==5:
+					CountTA[1]=CountTA[1]+1	
+				elif obj.uid.program ==7:
+					CountTA[1]=CountTA[1]+1
+			return render(request, 'ta_allocation/doa_courseresults.html', {'course': course_obj, 'selected':selected, 'not_selected':not_selected,'str':"","Min":MinReqTA,"alloc":allocatedCount,"tacount":CountTA})
 	else:
 		return render(request, 'ta_allocation/index.html')
 

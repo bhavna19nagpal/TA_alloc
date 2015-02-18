@@ -3,3 +3,7 @@ Initial changes continued from the previous version
 1. Visibility of student database from the portal for Admin and DOAA.
 2. Enforcing form filling for students.
 3. Student can say they are not doing TA-ship in the corresponding semester.
+4. List of Allocated and Unallocated Students Updated and Requirement V/s Allocated stats shown (with count of Btech , Mtech and Phds)
+5. Confirmation emails sent to all the students which have been approved By DOA for a particular course.
+ 
+

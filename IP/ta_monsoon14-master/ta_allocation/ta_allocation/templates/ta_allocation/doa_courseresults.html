@@ -65,13 +65,13 @@
 					</div>
 					<div class = 'col-md-2'>
 						{% if element.uid.program == 0 %}
-						<td>B Tech</td>
+						<font color="red"><td>B Tech</td></font>
 						{% elif element.uid.program == 4 %}
-						<td>MTech 1st Year</td>
+						<font color="blue"><td>MTech 1st Year</td></font>
 						{% elif element.uid.program == 5 %}
-						<td>MTech 2nd Year</td>
+						<font color="blue"><td>MTech 2nd Year</td></font>
 						{% elif element.uid.program == 7 %}
-						<td>PhD</td>
+						<font color="green"><td>PhD</td></font>
 						{% endif %}
 					</div>
 					<div class = 'col-md-3'>
@@ -103,7 +103,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel" style="font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:30px; text-align:center">Selected TA's for {{course.cid}}</h4>
-          </div><br>
+          </div>
+          <p>
+          <div style = 'text-align:center'>TA Statistics:</div>
+          <div style = 'text-align:center'>Min Required : {{Min}}  : Allocated : {{alloc}}</div>
+          <div style = 'text-align:center'><font color="red">Btech : {{tacount.0}}   </font><font color="blue">Mtech : {{tacount.1}}    </font><font color="green">Phd. : {{tacount.2}}</font></div>
+          </p>
           <div class = 'row'>
 
           	<div class = 'col-md-1'></div>
@@ -127,13 +132,13 @@
 					</div>
 					<div class = 'col-md-2'>
 						{% if element.uid.program == 0 %}
-						<td>B Tech</td>
+						<font color="red"><td>B Tech</td></font>
 						{% elif element.uid.program == 4 %}
-						<td>MTech 1st Year</td>
+						<font color="blue"><td>MTech 1st Year</td></font>
 						{% elif element.uid.program == 5 %}
-						<td>MTech 2nd Year</td>
+						<font color="blue"><td>MTech 2nd Year</td></font>
 						{% elif element.uid.program == 7 %}
-						<td>PhD</td>
+						<font color="green"><td>PhD</td></font>
 						{% endif %}
 					</div>
 					<div class = 'col-md-3'>
