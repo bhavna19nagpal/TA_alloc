@@ -20,6 +20,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.db.models import Q
 from subprocess import call
 from django.core.urlresolvers import *
+from django.db.models import Count
 
 #Loads Home page(that contains the choices TA and Professor) if the user is authenticated and index page otherwise
 def index(request):
@@ -1102,10 +1103,20 @@ def doa_confirmation(request):
 
 def confirmation_mail():
 	allocatedList = student_allocated.objects.all()
+	courses=student_allocated.objects.values('course_id').annotate(cn= Count('course_id'))
+	
 	for St in allocatedList:
 		if St.student_id.loginid!=None:
 			email = EmailMessage('[TA-Allocation] Confirmation Email', 'Your TA application for "'+St.course_id.cname+'" has been accepted and approved. Congratulations !!!', 'pulkit12082@iiitd.ac.in',[St.student_id.loginid])
 			email.send()
+	for c in courses:
+		st_alloc_obj=student_allocated.objects.filter(course_id = c['course_id'])	
+		sel_list='\n'
+		for st in st_alloc_obj:
+			sel_list= sel_list +'\n'+ st.student_id.loginid	
+		if st_alloc_obj[0].course_id.prof_id1.loginid!=None:
+			email = EmailMessage('[TA-Allocation] Confirmation Email', 'TA application for "'+st_alloc_obj[0].course_id.cname+'" has been accepted and approved for the following students.'+sel_list, 'pulkit12082@iiitd.ac.in',[st_alloc_obj[0].course_id.prof_id1.loginid])
+			email.send()	
 ###
 
 def doa_allocation(request):

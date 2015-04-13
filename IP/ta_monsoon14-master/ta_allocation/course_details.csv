@@ -1,5 +1,5 @@
-Course_id,CSEtest
-ta_min,9
-ta_max,9
-prereqs,Introduction to Programming!Digital Circuits!
-skills,TTL & CMOS chips!
+Course_id,CSEtest,123,CSE123
+ta_min,9,0,10
+ta_max,9,0,10
+prereqs,Introduction to Programming!Digital Circuits!,Introduction to Programming!,!
+skills,HDL Coding!TTL & CMOS chips!,!,!
