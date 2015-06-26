@@ -47,7 +47,7 @@
           <div class = 'modal-body ativa-scroll' style = 'max-height:400px;'>
 					
 					<p>{{str}}</p>
-						<form id="f_gen" action={{path}} method="post" >
+						<form id="f_gen" action="javascript:history.go(-1);" method="post" >
 
   			  
 							{% csrf_token %}
