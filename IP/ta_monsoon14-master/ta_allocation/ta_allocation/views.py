@@ -1749,6 +1749,7 @@ def doa_upload_policy(request):
 			str1 = "Please enter All the values."
 			if form.is_valid():
 				newdoc = Document(docfile=request.FILES['file'])
+				os.getcwd()
 				newdoc.save()
 				wb = xlrd.open_workbook(os.getcwd()+"/"+newdoc.docfile.name)
 				sh = wb.sheet_by_name('Sheet1')
@@ -2333,8 +2334,8 @@ def admin_editroles(request,param):
 			entry.role= request.POST['role']
 			entry.program = request.POST['program']
 			entry.save()
-			str="Your details have been saved"
-			return redirect('/admin/allusers', {'str': str})
+			msg="Your details have been saved"
+			return redirect('/admin/allusers', {'str': msg})
 		else:
 			entry = role_list.objects.get(aid=param)
 			form = roles_form(
@@ -2357,13 +2358,12 @@ def viewuserprofile(request,param):
 				return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
 		except role_list.DoesNotExist:
 			return render(request, 'ta_allocation/notallowed.html', {'user':request.user.username})
-		Previous_path = resolve(request.path).url_name
 		if request.method == 'GET':
 			entry = role_list.objects.get(aid=param)
 			GeneralInfo = student_general.objects.get(loginid=entry.loginid)
 			form = roles_form(
 				initial ={'loginid':entry.loginid,'role':entry.role,'program':entry.program,'name':GeneralInfo.name,'roll':GeneralInfo.roll_no})
-			return render(request, 'ta_allocation/admin_viewuserprofile.html', {'form': form,'entry':entry,'info':GeneralInfo,'path':Previous_path})
+			return render(request, 'ta_allocation/admin_viewuserprofile.html', {'form': form,'entry':entry,'info':GeneralInfo})
 	else:
 		return render(request, 'ta_allocation/index.html', {'user':request.user.username})		
 		
@@ -3292,6 +3292,7 @@ def admin_addcourses_excel(request):
 			if form.is_valid():
 				newdoc = Document(docfile=request.FILES['file'])
 				newdoc.save()
+				print os.getcwd()+"/"+newdoc.docfile.name + "&&&&&&&&&&&RR$RR"
 				wb = xlrd.open_workbook(os.getcwd()+"/"+newdoc.docfile.name)
 				sh = wb.sheet_by_name('Sheet1')
 				your_csv_file = open('converted.csv', 'wb')

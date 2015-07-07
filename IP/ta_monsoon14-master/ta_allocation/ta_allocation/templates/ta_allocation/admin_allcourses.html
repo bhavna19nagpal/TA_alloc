@@ -45,8 +45,10 @@
           </div>
           <div class="modal-body ativa-scroll" id="myModalLabel" style="max-height:500px;font-family: Futura, &quot;Trebuchet MS&quot;, Arial, sans-serif; font-size:20px; text-align:center"> {{ str }} 
             <p>{{str}}</p>
+            <ul>
+					<li style="text-align:left; font-size:16px;"> **  Course Policy Violated</li>
+			</ul>
             <form id="f1" action="" method="post" >
-
                   <div class = 'row' style = 'font-size:18'>
                     <b>
                       <div class = 'col-md-1'></div>
@@ -64,7 +66,11 @@
                       <div class = 'col-md-1'>
                         <input type = 'checkbox' id = {{ item.aid }} class = 'box'>
                       </div>
+                      {% if item.chkPolicy == 1 %}
+                      <div class = 'col-md-2'>**{{ item.cid }}</div>
+                      {% else %}
                       <div class = 'col-md-2'>{{ item.cid }}</div>
+                      {% endif %}
                       <div class = 'col-md-2'>{{ item.cname }}</div>
                       <div class = 'col-md-2'>{{ item.prof_id1.loginid }}</div>
                       <div class = 'col-md-2'>{{ item.prof_id2.loginid }}</div>

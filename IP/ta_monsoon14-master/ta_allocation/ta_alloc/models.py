@@ -47,13 +47,13 @@ class course(models.Model):
 	reg_no = models.IntegerField(default=0) #no of registrations
 	course_type = models.ForeignKey(policy)
 	tutors_min =  models.IntegerField(default=0) #min value of tutors's needed
-	tutors_max =  models.IntegerField(default=0) #max value of tutors's needed
+	tutors_max =  models.IntegerField(default=1) #max value of tutors's needed
 	s_ta_min =  models.IntegerField(default=0) #min value of senior ta's needed
-	s_ta_max =  models.IntegerField(default=0) #max value of senior ta's needed
+	s_ta_max =  models.IntegerField(default=1) #max value of senior ta's needed
 	j_ta_min =  models.IntegerField(default=0) #min value of junior ta's needed
-	j_ta_max =  models.IntegerField(default=0) #max value of junior ta's needed
+	j_ta_max =  models.IntegerField(default=1) #max value of junior ta's needed
 	btech_ta_min =  models.IntegerField(default=0) #min value of btech ta's needed
-	btech_ta_max =  models.IntegerField(default=0) #max value of btech ta's needed
+	btech_ta_max =  models.IntegerField(default=1) #max value of btech ta's needed
 	select_max = models.IntegerField(default=1) #no of ta's an instructor can select 
 	status = models.IntegerField(default=1) #current status of the course
 	# def calculateSelected(self):
@@ -62,6 +62,13 @@ class course(models.Model):
 	# 	for studs in selected_studs:
 	# 		new_list.append(str(studs.uid.loginid.loginid))
 	# 	return new_list
+	def checkPolicy(self):
+		violate=0
+		self.reg_no/self.btech_ta_max
+		if self.reg_no/self.btech_ta_max < self.course_type.ratio_btech_ta_min or self.reg_no/self.tutors_max < self.course_type.ratio_tutors_min or self.reg_no/self.j_ta_max < self.course_type.ratio_j_ta_min or self.reg_no/self.s_ta_max < self.course_type.ratio_s_ta_min:
+			violate=1 
+		return violate
+	chkPolicy= property(checkPolicy)		
 	def calculateSelected(self):
 		selected_studs = student_allocated.objects.filter(course_id=self)
 		new_list = []
