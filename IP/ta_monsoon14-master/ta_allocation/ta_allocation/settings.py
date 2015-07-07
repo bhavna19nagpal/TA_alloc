@@ -66,7 +66,7 @@ DATABASES = {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ta_allocationv3',
 		'USER': 'root',
-		'PASSWORD': 'rootallway<3',
+		'PASSWORD':'1',
 
     }
 }
